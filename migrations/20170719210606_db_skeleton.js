@@ -41,10 +41,10 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
   return Promise.all([
-    knex.schema.dropTable('gameSettings'),
-    knex.schema.dropTable('gameDetails'),
-    knex.schema.dropTable('users'),
     knex.schema.dropTable('user_games'),
-    knex.schema.dropTable('gopsTurns')
+    knex.schema.dropTable('users'),
+    knex.schema.dropTable('gopsTurns'),
+    knex.schema.dropTable('gameDetails'),
+    knex.schema.dropTable('gameSettings')
     ])
 };
