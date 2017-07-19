@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
-  <% partial ./partials/_head.ejs %>
-  <body>
-    <h1><%= title %></h1>
+  <% include ./partials/_head.ejs %>
+  <% include ./partials/_header.ejs %>
+
     <p>Welcome to <%= title %></p>
-  </body>
+  <% include ./partials/_footer.ejs %>
+
 </html>
