@@ -15,6 +15,7 @@ exports.up = function(knex, Promise) {
       table.foreign('settings_id').references('gameSettings.id'),
       table.string('status'),
       table.integer('winner_id'),
+      table.foreign('winner_id').references('users.id'),
       table.integer('players_to_auto_start')
     }),
     knex.schema.createTable('users', function (table){
