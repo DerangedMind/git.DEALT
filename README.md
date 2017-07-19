@@ -1,6 +1,6 @@
 # LCG Castle
 
-LCG Castle is a card game web-app created using ExpressJS for the back-end, KNEX to access a PostGreSQL DB, and Bootstrap and Sass for the front-end.
+LCG Castle is a card game web-app created using ExpressJS for the back-end, KNEX to access a PostGreSQL DB, EJS for front-end templating, and Bootstrap and Sass for the front-end CSS design.
 
 ## Installing the project
 
