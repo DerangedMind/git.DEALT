@@ -1,4 +1,5 @@
-//Don't forget to create the database ib psql before actually doing this migrate. Dev settings have already been set.
+//Don't forget to create the database in psql before actually doing this migrate. Dev settings have already been set.
+//Run knex.init in directory to use migration file.
 
 exports.up = function(knex, Promise) {
   return Promise.all([
