@@ -1,23 +1,28 @@
+'use strict'
+
 const express = require('express')
 const router = express.Router()
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { 
-    title: 'LCG Castle' 
-  })
-})
+module.exports = function(app, passport) {
 
-router.get('/lobby', function(req, res, next) {
-  res.render('lobby', {
-    title: ''
+  /* GET home page. */
+  router.get('/', function(req, res, next) {
+    res.render('index', { 
+      title: 'LCG Castle' 
+    })
   })
-})
 
-router.get('/create', function(req, res, next) {
-  res.render('create', {
-    title: ''
+  router.get('/lobby', function(req, res, next) {
+    res.render('lobby', {
+      title: ''
+    })
   })
-})
 
-module.exports = router
+  router.get('/create', function(req, res, next) {
+    res.render('create', {
+      title: ''
+    })
+  })
+
+  return router
+}
