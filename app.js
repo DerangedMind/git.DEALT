@@ -3,16 +3,17 @@ const app = express()
 const path = require('path')
 const favicon = require('serve-favicon')
 
-const logger = require('morgan')
-const cookieParser = require('cookie-parser')
-const bodyParser = require('body-parser')
-const session = require ('express-session')
+const logger            = require('morgan')
+const cookieParser      = require('cookie-parser')
+const bodyParser        = require('body-parser')
+const session           = require ('express-session')
 
-const passport = require('passport')
-const FacebookStrategy = require('passport-facebook').Strategy
+const passport          = require('passport')
+const flash             = require('connect-flash')
+const FacebookStrategy  = require('passport-facebook').Strategy
 
-const index = require('./routes/index')
-const users = require('./routes/users')
+const index             = require('./routes/index')
+const users             = require('./routes/users')
 
 
 // view engine setup
@@ -22,18 +23,21 @@ app.set('view engine', 'ejs');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+app.use(cookieParser())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use(cookieSession({
-  name: 'session',
-  keys: ['key1', 'key2'],
-  maxAge: 24 * 60 * 60 * 1000 // 24 hours
-}))
 
-app.use('/', index);
+app.use(session({
+  secret: 'ilovekombucha'
+})
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(flash())
+
+app.use('/', index)(app, passport);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
