@@ -5,17 +5,17 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-h1#pgname {
+#pgname {
   /*font-size-base: 14px;*/
   font-size: 4em;
   margin: 0px;
 }
 
-p#welcome {
+#welcome {
   font-size: 3em;
 }
 
-p#description {
+#description {
   font-size: 1em;
   margin: 0px;
 
