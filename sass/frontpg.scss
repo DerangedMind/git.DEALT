@@ -1,0 +1,39 @@
+$body-color:green;
+
+
+
+body {
+  background-color: $body-color;
+  text-align: center;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  #pgname {
+  /*font-size-base: 14px;*/
+  font-size: 4em;
+  margin: 0px;
+  }
+  #welcome {
+  font-size: 3em;
+  }
+
+  div.boxed {
+    margin-top: 30px;
+    display: inline-block;
+    border: solid black 1px;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    width: 100%;
+    h3 {
+    margin: 0px;
+    }
+    button {
+    margin-bottom: 10px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 90%;
+    }
+  }
+}
+
+
+
+

@@ -7,6 +7,8 @@ const bodyParser = require('body-parser');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
+const sassMiddleware = require('node-sass-middleware');
+
 
 const app = express();
 
@@ -19,7 +21,19 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(
+  sassMiddleware({
+  src: __dirname + '/sass',
+  dest: __dirname + '/public/stylesheets',
+  prefix: '/stylesheets',
+  debug: true,
+  })
+);
+
 app.use(express.static(path.join(__dirname, 'public')));
+
+
 
 app.use('/', index);
 app.use('/users', users);
