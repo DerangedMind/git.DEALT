@@ -1,0 +1,22 @@
+body {
+  h2 {
+    font-size: 25px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+  .boxed-options {
+    border: 1px black solid;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    select {
+      margin-top: 7px;
+      margin-bottom: 7px;
+    }
+    .playbtn {
+      margin-top:15px;
+      margin-bottom:5px
+    }
+  }
+}
+
+
