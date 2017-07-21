@@ -1,33 +1,48 @@
+* {
+  border: 1px red dashed;
+
+}
 .user-info {
   text-align: left;
+  .prodiv {
+    text-align: center;
+    padding: 0px;
+    /*CENTER!!!*/
+
   .propic {
     padding: 0px;
-    height: 70px;
-    width: 70px;
-    margin: 15px;
+    height: 80px;
+    width: 80px;
+    margin: 5px;
+  }
   }
   .user-name {
-    width: 250px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    float:left;
+    width: 310px;
+    /*MAKE ADJUSTABLE IF LONG NAME!!!*/
+    padding: 5px 10px;
+
+
     border: 1px solid black;
     &:focus {
       outline:0 !important;
     }
   }
   .edit-icon {
+    float:left;
     margin-left:7px;
     opacity: .4;
     &:hover {
       opacity: 1.0;
     }
   }
-
-
 }
 
-
-
+.clear-fix {
+  content: "";
+  display: table;
+  clear: both;
+}
 
 
 
