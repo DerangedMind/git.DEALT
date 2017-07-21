@@ -29,6 +29,12 @@ module.exports = function(app, passport) {
 
   });
 
+router.get('/users/:id', function(req, res, next) {
+  res.render('profile', {
+    title: '',
+    id: req.params.id,
+  })
+});
 
   router.get('/auth/facebook',
               passport.authenticate('facebook', {

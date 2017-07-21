@@ -1,25 +1,24 @@
+* {
+  border: 1px red dashed;
+}
 
 .user-info {
   text-align: left;
   .prodiv {
     text-align: center;
     padding: 0px;
-    /*CENTER!!!*/
-
-  .propic {
-    padding: 0px;
-    height: 80px;
-    width: 80px;
-    margin: 5px;
-  }
+    .propic {
+      padding: 0px;
+      height: 80px;
+      width: 80px;
+      margin: 5px;
+    }
   }
   .user-name {
     float:left;
-    width: 310px;
+    width: 87%;
     /*MAKE ADJUSTABLE IF LONG NAME!!!*/
     padding: 5px 10px;
-
-
     border: 1px solid black;
     &:focus {
       outline:0 !important;
