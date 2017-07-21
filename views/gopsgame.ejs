@@ -2,18 +2,30 @@
 <html>
   <% include ./partials/_head.ejs %>
   
-  <body>
+  <body class="container">
 
     <h1>Riki's GOPS Game</h1>
+      <div class="row">
+        <div class="col-md-2 col-xs-2"></div>
+        
+        <div class="playingCards col-md-8 col-xs-8">
+          <ul class="deck">
+          <% for (let i = 0; i < playerHand.length; i++) { %>
+            <li>
+              <div class="card back"></div>    
+            </li>
+          <% } %>
+          </ul>
 
-      <div class="prize-card" data-prize="4">
-        4
-      </div>
+          <div class="playingCards rotateHand faceImages">
+            <ul class="table">
+              <% for (let i = 0; i < playerHand.length; i++) { %>
 
-      <div class="btn-group">
-        <% for (let i = 0; i < playerHand.length; i++) { %>
-          <button class="btn btn-default"><%= playerHand[i] %></button>
-        <% } %>
+                  <% include ./partials/_playingCard.ejs %>
+              <% } %>
+            </ul> 
+          </div>
+        </div>
       </div>
   </body>
 
