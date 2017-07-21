@@ -3,8 +3,13 @@
   <% include ./partials/_head.ejs %>
   <% include ./partials/_header.ejs %>
 
-  <p>Please select a game!</p>
+  <h2>Select a game from the queue or create a new one:</h2>
 
+  <% include ./partials/_queue-box.ejs %>
+
+  <a class="btn btn-primary create-new-btn" href="/create">Create new game</a>
 
   <% include ./partials/_footer.ejs %>
 </html>
+
+

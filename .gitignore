@@ -60,5 +60,11 @@ typings/
 #knexfile.js
 knexfile.js
 
+<<<<<<< HEAD
 #store facebook app details
 auth.js
+=======
+public/stylesheets/*
+.sass-cache/
+.DS_Store
+>>>>>>> creategamepg

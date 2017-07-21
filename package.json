@@ -16,11 +16,14 @@
     "express-session": "^1.15.4",
     "knex": "^0.13.0",
     "morgan": "~1.8.1",
+<<<<<<< HEAD
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-local": "^1.0.0",
+=======
+    "node-sass-middleware": "^0.11.0",
+>>>>>>> creategamepg
     "pg": "^7.0.1",
-    "sass": "^1.0.0-beta.2",
     "serve-favicon": "~2.4.2"
   }
 }

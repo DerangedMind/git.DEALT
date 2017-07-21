@@ -12,8 +12,10 @@ const session           = require ('express-session')
 const passport          = require('passport')
 const flash             = require('connect-flash')
 const FacebookStrategy  = require('passport-facebook').Strategy
+const sassMiddleware = require('node-sass-middleware');
 
 require('./config/passport')(passport)
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -24,6 +26,16 @@ app.use(logger('dev'));
 app.use(cookieParser())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(
+  sassMiddleware({
+  src: __dirname + '/sass',
+  dest: __dirname + '/public/stylesheets',
+  prefix: '/stylesheets',
+  debug: true,
+  })
+);
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
