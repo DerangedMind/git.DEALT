@@ -45,7 +45,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
 
-const routes = require('./routes/index.js')(app, passport)
+const routes = require('./routes/routes.js')(app, passport)
 app.use('/', routes)
 
 // catch 404 and forward to error handler

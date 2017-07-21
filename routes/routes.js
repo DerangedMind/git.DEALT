@@ -40,6 +40,18 @@ module.exports = function(app, passport) {
     req.logout()
     res.redirect('/')
   })
+
+  router.get('/gops/:game_id', isLoggedIn, function(req, res, next) {
+    console.log(req.cookies)
+    res.render('gopsgame', {
+      'title': '',
+      'playerHand': [1,2,3,4,5,6,7,8,9,10,11,12,13]
+    })
+  })
+
+  router.post('/gops/:game_id', isLoggedIn, function(req, res, next) {
+
+  })
   function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
       return next()
