@@ -50,21 +50,37 @@ function playCard(instance, card, user_id) {
   instance[user_id].hand.splice((card - 1), 1);
 };
 
-function roundWinner(instance, prize) {
+function roundWinner(instance) {
 
   let highestCard = 0;
   let winner = 0;
+  let multipleHighest = false;
+
   for (let player in instance){
     if ((instance[playCard].readyCard === highestCard)){
-      highestCard = 0;
-      winner = 0;
-      return;
+      multipleHighest = true;
     } else if (instance[player].readyCard > highestCard){
       highestCard = instance[player].readyCard;
+      multipleHighest = false
       winner = player;
     }
   }
-  instance[winner].points += prize;
+  if (multipleHighest === false) {
+    return winner;
+  } else {
+    return null;
+  }
+};
+
+function awardPoints(instance, id) {
+
+  if (id) {
+    instance[id].points += instance.prizePool[0];
+    instance.prizePool.splice(0, 1);
+  } else {
+    let message = "Round nulled, two or more players played same card."
+    instance.prizePool.splice(0, 1);
+  }
 }
 
 var gops = {

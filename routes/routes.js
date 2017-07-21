@@ -1,7 +1,7 @@
 'use strict'
 const express = require('express')
 const router = express.Router()
-const gops = require('../games/gopsHelpers');
+const actions = require('../lib/knexFunctions')
 
 module.exports = function(app, passport) {
 
