@@ -14,28 +14,77 @@ function shuffle(arr) {
 };
 
 //Creates Game
-function createGameObject(game_id, user_id) {
+function createGameObject(gameType, user_id) {
   let instance = {}
 
-  instance.game_id = game_id
-  instance[user_id] = generateHand();
+  instance.gameType = gameType;
+  instance[user_id] = {};
+  instance[user_id].hand = generateHand()
+  instance[user_id].readyCard = 0
+  instance[user_id].points = 0
   instance.prizePool = shuffle(generateHand());
-  instance.currentCards = {};
-  instance.currentCards[user_id] = 0
-  instance.points = {};
-  instance.points[user_id] = 0;
 
   return instance;
 }
 
 //Adds player to game
-function addPlayer(gameObj, user_id) {
+function addPlayer() {
 
-  gameObj[user_id] = generateHand();
-  gameObj.currentCards[user_id] = 0;
-  gameObj.points[user_id] = 0
+  let player = {}
+  player.hand = generateHand();
+  player.readyCard = 0;
+  player.points = 0;
+
+  return player;
 }
 
+function appendPlayerToGame(instance, user_id) {
+
+  instance[user_id] = addPlayer()
+};
+
+//Adds cards to hand
+function playCard(instance, card, user_id) {
+
+  instance[user_id].readyCard = card;
+  instance[user_id].hand.splice((card - 1), 1);
+};
+
+function roundWinner(instance, prize) {
+
+  let highestCard = 0;
+  let winner = 0;
+  for (let player in instance){
+    if (instance[player].readyCard > highestCard){
+      highestCard = instance[player].readyCard;
+      winner = player;
+    }
+  }
+  instance[winner].points += prize;
+}
+
+var gops = {
+
+  generateHand : generateHand,
+  shuffle : shuffle,
+  createGameObject : createGameObject,
+  addPlayer : addPlayer,
+  appendPlayerToGame: appendPlayerToGame,
+  playCard : playCard,
+  roundWinner : roundWinner
+}
+
+module.exports = gops;
 
 
+// let game1 = createGameObject("gops", 1);
+// appendPlayerToGame(game1, 2);
+// appendPlayerToGame(game1, 5);
 
+// playCard(game1, 10, 1);
+// playCard(game1, 13, 2);
+// playCard(game1, 4, 5);
+
+// roundWinner(game1, game1.prizePool.shift());
+
+// console.log(game1);
