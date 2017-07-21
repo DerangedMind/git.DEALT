@@ -7,7 +7,7 @@ module.exports = function(app, passport) {
 
   /* GET home page. */
   router.get('/', function(req, res, next) {
-    res.render('index', { 
+    res.render('index', {
       title: 'LCG Castle',
       message: req.flash('loginMessage')
     })
@@ -25,7 +25,7 @@ module.exports = function(app, passport) {
     })
   })
 
-  router.get('/auth/facebook', 
+  router.get('/auth/facebook',
               passport.authenticate('facebook', {
                 scope:'email'
               }

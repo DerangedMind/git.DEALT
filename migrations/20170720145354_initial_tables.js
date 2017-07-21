@@ -30,7 +30,7 @@ exports.up = function(knex, Promise) {
       table.increments('id').primary(),
       table.integer('game_id').notNullable(),
       table.integer('turn_number'),
-      table.string('turn_result').nullable()
+      table.string('turn_result').nullable(),
     })
   ])
 };
