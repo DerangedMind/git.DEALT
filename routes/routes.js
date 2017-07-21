@@ -1,7 +1,7 @@
 'use strict'
-
 const express = require('express')
 const router = express.Router()
+const gops = require('../games/gopsHelpers');
 
 module.exports = function(app, passport) {
 
@@ -24,6 +24,11 @@ module.exports = function(app, passport) {
       title: ''
     })
   })
+
+  router.post('/create', function(req,res, next){
+
+  });
+
 
   router.get('/auth/facebook',
               passport.authenticate('facebook', {

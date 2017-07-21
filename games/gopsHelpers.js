@@ -55,7 +55,11 @@ function roundWinner(instance, prize) {
   let highestCard = 0;
   let winner = 0;
   for (let player in instance){
-    if (instance[player].readyCard > highestCard){
+    if ((instance[playCard].readyCard === highestCard)){
+      highestCard = 0;
+      winner = 0;
+      return;
+    } else if (instance[player].readyCard > highestCard){
       highestCard = instance[player].readyCard;
       winner = player;
     }
@@ -71,7 +75,7 @@ var gops = {
   addPlayer : addPlayer,
   appendPlayerToGame: appendPlayerToGame,
   playCard : playCard,
-  roundWinner : roundWinner
+  roundWinner : roundWinner,
 }
 
 module.exports = gops;
