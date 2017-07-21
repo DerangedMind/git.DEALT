@@ -2,18 +2,26 @@
 <html>
   <% include ./partials/_head.ejs %>
   <% include ./partials/_header.ejs %>
+    
+    <% if (message.length > 0) { %>
+      <div class="alert alert-danger">
+        <%= message %>
+      </div>
+    <% } %>
 
     <p id="welcome">Welcome to <%= title %>!</p>
     <p>A web app that allows players to play various card games against other players.</p>
+    
     <div class="row">
       <div class="col-md-3"></div>
       <div class="col-md-6">
-        <div class="boxed ">
+        <div class="boxed">
           <h3>Wanna play?</h3>
           <h5>Sign up!</h5>
             <div>
               <a href="/auth/facebook">
                 <button class="btn btn-primary btn-lg btn-block" type="submit">
+                  <span class="fa fa-facebook"></span>
                   Login with Facebook
                 </button>
               </a>

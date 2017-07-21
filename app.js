@@ -2,8 +2,7 @@ const express = require('express')
 const app = express()
 const path = require('path')
 const favicon = require('serve-favicon')
-
-const knex = require('knex')(require('./knexfile').development)
+const knex = require('./knexserver')
 
 const logger            = require('morgan')
 const cookieParser      = require('cookie-parser')
@@ -14,6 +13,7 @@ const passport          = require('passport')
 const flash             = require('connect-flash')
 const FacebookStrategy  = require('passport-facebook').Strategy
 
+require('./config/passport')(passport)
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

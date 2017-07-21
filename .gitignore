@@ -60,3 +60,5 @@ typings/
 #knexfile.js
 knexfile.js
 
+#store facebook app details
+auth.js
