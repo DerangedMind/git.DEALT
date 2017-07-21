@@ -25,6 +25,7 @@ module.exports = function(app, passport) {
     })
   })
 
+
   router.get('/auth/facebook',
               passport.authenticate('facebook', {
                 scope:'email'
