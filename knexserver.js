@@ -7,7 +7,7 @@ console.log(`
 
 
 
-  env
+  ${env}
 
 
 
