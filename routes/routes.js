@@ -60,7 +60,7 @@ router.get('/users/:id', function(req, res, next) {
     })
   })
 
-  router.post('/gops/:game_id', isLoggedIn, function(req, res, next) {
+  router.post('/gops', isLoggedIn, function(req, res, next) {
     
   })
   function isLoggedIn(req, res, next) {
