@@ -61,7 +61,7 @@ router.get('/users/:id', function(req, res, next) {
   })
 
   router.post('/gops', isLoggedIn, function(req, res, next) {
-    
+    console.log(req.body.card)
   })
   function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
