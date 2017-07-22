@@ -50,6 +50,7 @@ function playCard(instance, card, user_id) {
   instance[user_id].hand.splice((card - 1), 1);
 };
 
+//Returns the winner of the round. Must be used as the argument for award points.
 function roundWinner(instance) {
 
   let highestCard = 0;
@@ -77,11 +78,57 @@ function awardPoints(instance, id) {
   if (id) {
     instance[id].points += instance.prizePool[0];
     instance.prizePool.splice(0, 1);
+    reset(instance);
   } else {
     let message = "Round nulled, two or more players played same card."
     instance.prizePool.splice(0, 1);
+    reset(instance);
+    return message;
   }
 }
+
+function reset(instance) {
+
+  for (let player in instance) {
+    instance[playCard].readyCard = 0
+  }
+};
+
+function readyCheck(instance) {
+
+  let ready = true;
+  for (let player in instance) {
+    if(instance[player].readyCard === 0) {
+      ready = false;
+    }
+  }
+  return ready;
+}
+
+function gameCheck(instance){
+
+  let status = true;
+  if (instance.prizePool.length === 0) {
+    status = false
+  }
+  return status;
+}
+
+function endGame (instance) {
+
+  let gameWinner = 0;
+  let totalPoints = 0;
+
+  for (let player in instance) {
+    if ((instance[player].points) > totalPoints){
+      totalPoints = instance[player].points;
+      gameWinner = player;
+    }
+  }
+  return gameWinner;
+}
+
+
 
 var gops = {
 
@@ -92,6 +139,11 @@ var gops = {
   appendPlayerToGame: appendPlayerToGame,
   playCard : playCard,
   roundWinner : roundWinner,
+  awardPoints: awardPoints.
+  reset: reset,
+  readyCheck: readyCheck,
+  gameCheck: gameCheck,
+  endGame: endGame
 }
 
 module.exports = gops;

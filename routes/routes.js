@@ -25,10 +25,19 @@ module.exports = function(app, passport) {
     })
   })
 
-  router.post('/create', function(req,res, next){
+  router.post('/create', isLoggedIn, function(req,res, next){
 
+    let userid = req.session.passport.user[0].id;
+    actions.createGame(userid);
   });
 
+  router.post('/:gameid/:userid', isLoggedIn, function(red,res,next){
+
+    let game = req.params.gameid;
+    let user = req.params.userid;
+
+    actions.addPlayer(game, user);
+  })
 
   router.get('/auth/facebook',
               passport.authenticate('facebook', {
