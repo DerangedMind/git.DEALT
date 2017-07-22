@@ -25,14 +25,6 @@ module.exports = function(app, passport) {
     })
   })
 
-  router.post('/:gameid/:userid', isLoggedIn, function(red,res,next){
-
-    let game = req.params.gameid;
-    let user = req.params.userid;
-
-    actions.addPlayer(game, user);
-  })
-
   router.get('/auth/facebook',
               passport.authenticate('facebook', {
                 scope:'email'

@@ -23,7 +23,7 @@ function createGameObject(gameType, user_id) {
   instance[user_id].readyCard = 0
   instance[user_id].points = 0
   instance.prizePool = shuffle(generateHand());
-  instance.maxPlayers = 3,
+  instance.autoStartPlayers = 3,
   instance.playerCount = 1
 
   return instance;
@@ -84,17 +84,17 @@ function awardPoints(instance, id) {
   if (id) {
     instance[id].points += instance.prizePool[0];
     instance.prizePool.splice(0, 1);
-    reset(instance);
+    resetReadyCard(instance);
   } else {
     let message = "Round nulled, two or more players played same card."
     instance.prizePool.splice(0, 1);
-    reset(instance);
+    resetReadyCard(instance);
     return message;
   }
 }
 
 //Once winner has been decided, resets hand of each player to zero.
-function reset(instance) {
+function resetReadyCard(instance) {
 
   for (let player in instance) {
     if(instance[player].readyCard !== undefined){
@@ -121,7 +121,7 @@ function gameCheck(instance){
 
   let status = true;
   if (instance.prizePool.length === 0) {
-    status = false
+    return false;
   }
   return status;
 }
@@ -144,7 +144,7 @@ function endGame (instance) {
 // Will run after a player has joined the round. Returns true if the maximum number of players ahave been reached.
 function startCheck(instance) {
   status = false;
-  if (instance.playerCount === instance.maxPlayers){
+  if (instance.playerCount === instance.autoStartPlayers){
     status = true;
   }
   return status;
@@ -160,7 +160,7 @@ var gops = {
   playCard : playCard,
   roundWinner : roundWinner,
   awardPoints: awardPoints,
-  reset: reset,
+  reset: resetReadyCard,
   readyCheck: readyCheck,
   gameCheck: gameCheck,
   endGame: endGame,
