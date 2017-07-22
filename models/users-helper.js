@@ -28,7 +28,7 @@ module.exports = {
                 knex('users')
                   .insert({
                     'name': profile.name.givenName,
-                    'email': profile.emails[0].value,
+                    'email': profile.emails[0].value || null,
                     'pass_or_token': profile.provider,
                     'oauth_id': profile.id
                   })
