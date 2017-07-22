@@ -63,7 +63,7 @@ function roundWinner(instance) {
   let multipleHighest = false;
 
   for (let player in instance){
-    if ((instance[playCard].readyCard === highestCard)){
+    if ((instance[player].readyCard === highestCard)){
       multipleHighest = true;
     } else if (instance[player].readyCard > highestCard){
       highestCard = instance[player].readyCard;
@@ -97,7 +97,9 @@ function awardPoints(instance, id) {
 function reset(instance) {
 
   for (let player in instance) {
-    instance[playCard].readyCard = 0
+    if(instance[player].readyCard !== undefined){
+      instance[player].readyCard = 0
+    }
   }
 };
 
@@ -157,7 +159,7 @@ var gops = {
   appendPlayerToGame: appendPlayerToGame,
   playCard : playCard,
   roundWinner : roundWinner,
-  awardPoints: awardPoints.
+  awardPoints: awardPoints,
   reset: reset,
   readyCheck: readyCheck,
   gameCheck: gameCheck,
