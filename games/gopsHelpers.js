@@ -13,7 +13,7 @@ function shuffle(arr) {
     return arr;
 };
 
-//Creates Game
+//Creates Game hardcode gameType for the time being.
 function createGameObject(gameType, user_id) {
   let instance = {}
 
@@ -29,7 +29,7 @@ function createGameObject(gameType, user_id) {
   return instance;
 }
 
-//Adds player to game
+//Returns a player object.
 function addPlayer() {
 
   let player = {}
@@ -40,6 +40,7 @@ function addPlayer() {
   return player;
 }
 
+//Adds the created player to the game.
 function appendPlayerToGame(instance, user_id) {
 
   instance[user_id] = addPlayer()
@@ -53,7 +54,8 @@ function playCard(instance, card, user_id) {
   instance[user_id].hand.splice((card - 1), 1);
 };
 
-//Returns the winner of the round. Must be used as the argument for award points.
+//Returns the winner of the round. Must be used as the argument for award points. Rerturns null should
+//Two players have played the same highest card.
 function roundWinner(instance) {
 
   let highestCard = 0;
@@ -76,6 +78,7 @@ function roundWinner(instance) {
   }
 };
 
+//Awards points to the winner of the round. Takes roundWinner as an argument.
 function awardPoints(instance, id) {
 
   if (id) {
@@ -90,6 +93,7 @@ function awardPoints(instance, id) {
   }
 }
 
+//Once winner has been decided, resets hand of each player to zero.
 function reset(instance) {
 
   for (let player in instance) {
@@ -97,6 +101,8 @@ function reset(instance) {
   }
 };
 
+//At the begginning of every round, will check to see if every player has played. Status conditional -- needs to run
+//before checking a winner.
 function readyCheck(instance) {
 
   let ready = true;
@@ -108,6 +114,7 @@ function readyCheck(instance) {
   return ready;
 }
 
+//Cheecks to see if the game is still playable based on the number of cards in the prize pool. At zero, returns false.
 function gameCheck(instance){
 
   let status = true;
@@ -117,6 +124,7 @@ function gameCheck(instance){
   return status;
 }
 
+//Will run after having checked if game is done. If it is, will dfind the player with the highest points and return that.
 function endGame (instance) {
 
   let gameWinner = 0;
@@ -131,6 +139,7 @@ function endGame (instance) {
   return gameWinner;
 }
 
+// Will run after a player has joined the round. Returns true if the maximum number of players ahave been reached.
 function startCheck(instance) {
   status = false;
   if (instance.playerCount === instance.maxPlayers){

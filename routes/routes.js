@@ -25,12 +25,6 @@ module.exports = function(app, passport) {
     })
   })
 
-  router.post('/create', isLoggedIn, function(req,res, next){
-
-    let userid = req.session.passport.user[0].id;
-    actions.createGame(userid);
-  });
-
   router.post('/:gameid/:userid', isLoggedIn, function(red,res,next){
 
     let game = req.params.gameid;
