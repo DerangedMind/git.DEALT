@@ -6,18 +6,28 @@
 
     <h1>Riki's GOPS Game</h1>
       <div class="row">
-        <div class="col-md-2 col-xs-2"></div>
+        <div class="col-md-5 col-xs-1"></div>
         
-        <div class="playingCards col-md-8 col-xs-8">
+        <div class="playingCards col-md-2 col-xs-10">
           <ul class="deck">
           <% for (let i = 0; i < playerHand.length; i++) { %>
             <li>
               <div class="card back"></div>    
             </li>
           <% } %>
+            <li>
+              <a class="card rank-<%= playerHand[4] %> sp">
+                <div class="rank"><%= playerHand[4] %></div>
+                <div class="suit">&diams;</div>
+              </a>
+            </li>
           </ul>
-
-          <div class="playingCards rotateHand faceImages">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 col-xs-1"></div>
+        <div class="col-md-4 col-xs-10">
+          <div class="playingCards faceImages">
             <ul class="table">
               <% for (let i = 0; i < playerHand.length; i++) { %>
 

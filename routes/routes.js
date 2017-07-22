@@ -56,7 +56,7 @@ router.get('/users/:id', function(req, res, next) {
     console.log(req.cookies)
     res.render('gopsgame', {
       'title': '',
-      'playerHand': ['a',2,3,4,5,6,7,8,9,10,'j','q','k']
+      'playerHand': ['A',2,3,4,5,6,7,8,9,10,'J','Q','K']
     })
   })
 
