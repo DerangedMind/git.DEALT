@@ -23,6 +23,8 @@ function createGameObject(gameType, user_id) {
   instance[user_id].readyCard = 0
   instance[user_id].points = 0
   instance.prizePool = shuffle(generateHand());
+  instance.maxPlayers = 3,
+  instance.playerCount = 1
 
   return instance;
 }
@@ -41,6 +43,7 @@ function addPlayer() {
 function appendPlayerToGame(instance, user_id) {
 
   instance[user_id] = addPlayer()
+  instance.playerCount ++;
 };
 
 //Adds cards to hand
@@ -128,7 +131,13 @@ function endGame (instance) {
   return gameWinner;
 }
 
-
+function startCheck(instance) {
+  status = false;
+  if (instance.playerCount === instance.maxPlayers){
+    status = true;
+  }
+  return status;
+}
 
 var gops = {
 
@@ -143,7 +152,8 @@ var gops = {
   reset: reset,
   readyCheck: readyCheck,
   gameCheck: gameCheck,
-  endGame: endGame
+  endGame: endGame,
+  startCheck: startCheck
 }
 
 module.exports = gops;
