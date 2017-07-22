@@ -1,5 +1,47 @@
+* {
+  border: red dashed 1px;
+}
+
 .queue-box {
   border: black solid 1px;
   height: 350px;
   margin-bottom: 20px;
+  .col-width {
+    padding: 0px;
+
+
+    .queue-item {
+      border: 1px solid black;
+      margin: 7px 7px 2px 7px;
+      height: 75px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      #game-owner {
+        font-size: 20px;
+      }
+    }
+  }
 }
+/*
+<div class="row">
+      <div class="col-lg-12 col-width">
+        <div class="queue-item">
+          <div class="col-lg-4 game-owner-col">
+            <span id="game-owner">Jack Bauer</span>
+          </div>
+          <div class="col-lg-4 game-name-col">
+            <span id="game-name">Goofspiel</span>
+          </div>
+          <div class="col-lg-2 num-players-col">
+            <span id="num-players">4/6</span>
+          </div>
+          <div class="col-lg-2 join-col">
+            <a class="join btn btn-primary" href="#">Join</a>
+          </div>
+
+        </div> <!-- closes queue-item -->
+      </div> <!-- closes col-lg-12" -->
+    </div>
+
+    */
