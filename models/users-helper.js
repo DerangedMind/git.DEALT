@@ -25,7 +25,10 @@ module.exports = {
               else {
                 console.log(profile)
                 console.log(profile.emails)
-                let email = profile.emails[0].value || null
+                let email = null
+                if (profile.emails !== undefined) {
+                  email = profile.emails[0].value
+                }
                 knex('users')
                   .insert({
                     'name': profile.name.givenName,
