@@ -471,6 +471,7 @@
 .playingCards ul.hand li,
 .playingCards ul.deck li {
     margin: 0;
+    margin-top: -3.5em;
     padding: 0;
     list-style-type: none;
     float: left;
