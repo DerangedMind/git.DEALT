@@ -78,7 +78,7 @@ function roundWinner(instance) {
   }
 };
 
-//Awards points to the winner of the round. Takes roundWinner as an argument.
+//Awards points to the winner of the round. Takes the return value of roundWinner as an argument.
 function awardPoints(instance, id) {
 
   if (id) {
@@ -119,9 +119,9 @@ function readyCheck(instance) {
 function gameCheck(instance){
 
   if (instance.prizePool.length === 0) {
-    return false
+    return true
   }
-  return true
+  return false
 }
 
 //Will run after having checked if game is done. If it is, will dfind the player with the highest points and return that.
@@ -157,6 +157,14 @@ function playerExists(id, instance){
   }
 }
 
+function hasPlayed(id, instance) {
+  if (instance[id].readyCard === 0){
+    return true;
+  } else {
+    return false;
+  }
+}
+
 var gops = {
 
   generateHand : generateHand,
@@ -172,7 +180,8 @@ var gops = {
   gameCheck: gameCheck,
   endGame: endGame,
   startCheck: startCheck,
-  playerExists: playerExists
+  playerExists: playerExists,
+  hasPlayed: hasPlayed
 }
 
 module.exports = gops;
