@@ -100,7 +100,8 @@ module.exports = function(app, passport) {
     console.log(req.cookies)
     res.render('gopsgame', {
       'title': '',
-      'playerHand': ['A',2,3,4,5,6,7,8,9,10,'J','Q','K']
+      'playerHand': ['A',2,3,4,5,6,7,8,9,10,'J','Q','K'],
+      'readyCards': [1, 2]
     })
   })
 
