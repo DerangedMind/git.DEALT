@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
   <% include ./partials/_head.ejs %>
+
+
+  <div class="col-lg-3"></div>
+  <div class="col-lg-6 middle-screen">
   <% include ./partials/_header.ejs %>
 
   <h2>Create a new game</h2>
-
-  <div class="col-lg-2"></div>
-  <div class="col-lg-8">
     <div class="boxed-options">
       <form class="form-horizontal">
         <div class="form-group">
@@ -24,8 +25,8 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="col-lg-5 control-label" for="sel1">Number of players:</label>
-          <div class="col-lg-4">
+          <label class="col-lg-6 control-label" for="sel1">Number of players:</label>
+          <div class="col-lg-3">
             <select class="form-control" id="sel1">
               <option>2</option>
               <option>3</option>
@@ -33,10 +34,10 @@
               <option>5</option>
               <option>6</option>
             </select>
-          </div>
+          </div> <!-- closes form-group -->
         </div>
       </form>
-        <button class="btn btn-primary btn-lg playbtn" type="submit">Play!</button>
+        <button class="btn btn-primary playbtn" type="submit">Play!</button>
     </div>
     </div>
   </div>

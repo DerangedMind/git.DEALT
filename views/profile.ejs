@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html>
   <% include ./partials/_head.ejs %>
+
+  <div class="col-lg-3"></div>
+  <div class="col-lg-6 middle-screen">
   <% include ./partials/_header.ejs %>
-  <div class="row user-info">
-
-  <div class="col-lg-3"></div>
-  <div class="col-lg-6">
-    <div class="row">
+    <div class="row user-info">
       <div class="col-lg-2 prodiv">
-    <img class="propic" src="http://lorempixel.com/70/70/">
+        <img class="propic" src="http://lorempixel.com/70/70/">
       </div>
-      <div class="clearfix col-lg-8">
-    <h2 class="user-name">Billy Joel<h2>
-    <span class="glyphicon glyphicon-edit edit-icon"></span>
+      <div class="col-lg-10 clearfix">
+        <h2 class="user-name">Billy Joel</h2>
+        <span class="glyphicon glyphicon-edit edit-icon"></span>
       </div>
 
-    <div class="col-lg-2">
 
-    </div>
-    </div>
-  </div> <!-- closes col-lg-8 -->
-
+    </div> <!--closes row -->
+    <% include ./partials/_queue-box.ejs %>
+  </div> <!-- closes middle-screen -->
   <div class="col-lg-3"></div>
-  </div>    <!-- closing user-info -->
 
 
-  <% include ./partials/_queue-box.ejs %>
+
+
 
   <% include ./partials/_footer.ejs %>
 </html>
+
+
 

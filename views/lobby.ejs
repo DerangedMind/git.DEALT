@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
   <% include ./partials/_head.ejs %>
+  <div class="col-lg-3"></div>
+  <div class="col-lg-6 middle-screen">
   <% include ./partials/_header.ejs %>
 
   <h2>Select a game from the queue or create a new one:</h2>
@@ -8,6 +10,9 @@
   <% include ./partials/_queue-box.ejs %>
 
   <a class="btn btn-primary create-new-btn" href="/create">Create new game</a>
+
+  </div>
+  <div class="col-lg-3"></div>
 
   <% include ./partials/_footer.ejs %>
 </html>

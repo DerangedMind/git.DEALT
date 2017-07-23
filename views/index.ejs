@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <% include ./partials/_head.ejs %>
-  <% include ./partials/_header.ejs %>
+
 
     <% if (message.length > 0) { %>
       <div class="alert alert-danger">
@@ -9,29 +9,31 @@
       </div>
     <% } %>
 
-    <p id="welcome">Welcome to <%= title %>!</p>
-    <p>A web app that allows players to play various card games against other players.</p>
+
 
     <div class="row">
       <div class="col-md-3"></div>
-      <div class="col-md-6">
+      <div class="col-md-6 middle-screen">
+      <% include ./partials/_header.ejs %>
+      <p id="welcome">Welcome to git.DEALT!</p>
+      <p>A web app that allows players to play various card games against other players.</p>
         <div class="boxed">
           <h3>Wanna play?</h3>
           <h5>Sign up!</h5>
             <div>
               <a href="/auth/facebook">
-                <button class="btn btn-primary btn-lg btn-block" type="submit">
+                <button class="btn btn-primary btn-lg btn-block fb-button" type="submit">
                   <span class="fa fa-facebook"></span>
                   Login with Facebook
                 </button>
               </a>
-              <button class="btn btn-primary btn-lg btn-block" type="submit">Connect with Google</button>
+
           </div>
         </div>
       </div>
       <div class="col-md-3"></div>
     </div>
-  <% include ./partials/_footer.ejs %>
+</body>
 
 </html>
 

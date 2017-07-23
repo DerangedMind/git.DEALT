@@ -1,11 +1,13 @@
 body {
   h2 {
-    font-size: 25px;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    font-size: 24px;
+    margin-top: 12px;
+    margin-bottom: 12px;
   }
   .boxed-options {
-    border: 1px black solid;
+    background-color: white;
+    border: 1px #3f4249 solid;
+    box-shadow: 0px 0px 2px black;
     padding-top: 20px;
     padding-bottom: 20px;
     select {
@@ -14,7 +16,8 @@ body {
     }
     .playbtn {
       margin-top:15px;
-      margin-bottom:5px
+      margin-bottom:5px;
+      box-shadow: 0px 0px 1px black;
     }
   }
 }
