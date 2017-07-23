@@ -23,7 +23,7 @@ function createGameObject(gameType, user_id) {
   instance[user_id].readyCard = 0
   instance[user_id].points = 0
   instance.prizePool = shuffle(generateHand());
-  instance.autoStartPlayers = 3,
+  instance.autoStartPlayers = 2,
   instance.playerCount = 1
 
   return instance;
@@ -116,7 +116,7 @@ function readyCheck(instance) {
 }
 
 //Cheecks to see if the game is still playable based on the number of cards in the prize pool. At zero, returns false.
-function gameCheck(instance){
+function endGameCheck(instance){
 
   if (instance.prizePool.length === 0) {
     return true
@@ -177,7 +177,7 @@ var gops = {
   awardPoints: awardPoints,
   reset: resetReadyCard,
   readyCheck: readyCheck,
-  gameCheck: gameCheck,
+  endGameCheck: endGameCheck,
   endGame: endGame,
   startCheck: startCheck,
   playerExists: playerExists,
