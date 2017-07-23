@@ -56,6 +56,10 @@ $(() => {
 
   }
 
+  function revealCards() {
+    
+  }
+
   function readyCheck() {
 
     let gameid = $(location).attr('href').split('/')
