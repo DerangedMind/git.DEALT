@@ -2,7 +2,7 @@ $(() => {
 
   $('#submit-card').on('click', submitCard)
 
-  $('.table li').on('click', function (event) {
+  $('#hand .table li').on('click', function (event) {
     $('.selected').removeClass('selected')
     $(event.target).parents('li').addClass('selected')
     console.log($('.selected .rank').text())
@@ -57,7 +57,7 @@ $(() => {
   }
 
   function revealCards() {
-    
+
   }
 
   function readyCheck() {
