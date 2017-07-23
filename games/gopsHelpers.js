@@ -13,7 +13,7 @@ function shuffle(arr) {
     return arr;
 };
 
-//Creates Game
+//Creates Game hardcode gameType for the time being.
 function createGameObject(gameType, user_id) {
   let instance = {}
 
@@ -23,11 +23,13 @@ function createGameObject(gameType, user_id) {
   instance[user_id].readyCard = 0
   instance[user_id].points = 0
   instance.prizePool = shuffle(generateHand());
+  instance.autoStartPlayers = 3,
+  instance.playerCount = 1
 
   return instance;
 }
 
-//Adds player to game
+//Returns a player object.
 function addPlayer() {
 
   let player = {}
@@ -38,9 +40,11 @@ function addPlayer() {
   return player;
 }
 
+//Adds the created player to the game.
 function appendPlayerToGame(instance, user_id) {
 
   instance[user_id] = addPlayer()
+  instance.playerCount ++;
 };
 
 //Adds cards to hand
@@ -50,6 +54,8 @@ function playCard(instance, card, user_id) {
   instance[user_id].hand.splice((card - 1), 1);
 };
 
+//Returns the winner of the round. Must be used as the argument for award points. Rerturns null should
+//Two players have played the same highest card.
 function roundWinner(instance) {
 
   let highestCard = 0;
@@ -57,7 +63,7 @@ function roundWinner(instance) {
   let multipleHighest = false;
 
   for (let player in instance){
-    if ((instance[playCard].readyCard === highestCard)){
+    if ((instance[player].readyCard === highestCard)){
       multipleHighest = true;
     } else if (instance[player].readyCard > highestCard){
       highestCard = instance[player].readyCard;
@@ -72,15 +78,74 @@ function roundWinner(instance) {
   }
 };
 
+//Awards points to the winner of the round. Takes roundWinner as an argument.
 function awardPoints(instance, id) {
 
   if (id) {
     instance[id].points += instance.prizePool[0];
     instance.prizePool.splice(0, 1);
+    resetReadyCard(instance);
   } else {
     let message = "Round nulled, two or more players played same card."
     instance.prizePool.splice(0, 1);
+    resetReadyCard(instance);
+    return message;
   }
+}
+
+//Once winner has been decided, resets hand of each player to zero.
+function resetReadyCard(instance) {
+
+  for (let player in instance) {
+    if(instance[player].readyCard !== undefined){
+      instance[player].readyCard = 0
+    }
+  }
+};
+
+//At the begginning of every round, will check to see if every player has played. Status conditional -- needs to run
+//before checking a winner.
+function readyCheck(instance) {
+
+  for (let player in instance) {
+    if(instance[player].readyCard === 0) {
+      return false
+    }
+  }
+  return true
+}
+
+//Cheecks to see if the game is still playable based on the number of cards in the prize pool. At zero, returns false.
+function gameCheck(instance){
+  
+  if (instance.prizePool.length === 0) {
+    return false
+  }
+  return true
+}
+
+//Will run after having checked if game is done. If it is, will dfind the player with the highest points and return that.
+function endGame (instance) {
+
+  let gameWinner = 0;
+  let totalPoints = 0;
+
+  for (let player in instance) {
+    if ((instance[player].points) > totalPoints){
+      totalPoints = instance[player].points;
+      gameWinner = player;
+    }
+  }
+  return gameWinner;
+}
+
+// Will run after a player has joined the round. Returns true if the maximum number of players ahave been reached.
+function startCheck(instance) {
+
+  if (instance.playerCount === instance.autoStartPlayers){
+    return true
+  }
+  return false
 }
 
 var gops = {
@@ -92,6 +157,12 @@ var gops = {
   appendPlayerToGame: appendPlayerToGame,
   playCard : playCard,
   roundWinner : roundWinner,
+  awardPoints: awardPoints,
+  reset: resetReadyCard,
+  readyCheck: readyCheck,
+  gameCheck: gameCheck,
+  endGame: endGame,
+  startCheck: startCheck
 }
 
 module.exports = gops;
