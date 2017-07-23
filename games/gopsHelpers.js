@@ -149,7 +149,7 @@ function startCheck(instance) {
 }
 
 //will check if a player already exists in the instance. Returns true if the player doesn't exist.
-function playerExists(id, instance){
+function playerInGame(id, instance){
   if (instance[id] === undefined) {
     return true;
   } else {
@@ -180,7 +180,7 @@ var gops = {
   endGameCheck: endGameCheck,
   endGame: endGame,
   startCheck: startCheck,
-  playerExists: playerExists,
+  playerInGame: playerInGame,
   hasPlayed: hasPlayed
 }
 
