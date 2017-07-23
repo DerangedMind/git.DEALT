@@ -159,9 +159,9 @@ function playerInGame(id, instance){
 
 function hasPlayed(id, instance) {
   if (instance[id].readyCard === 0){
-    return true;
-  } else {
     return false;
+  } else {
+    return true
   }
 }
 
