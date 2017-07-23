@@ -107,23 +107,21 @@ function resetReadyCard(instance) {
 //before checking a winner.
 function readyCheck(instance) {
 
-  let ready = true;
   for (let player in instance) {
     if(instance[player].readyCard === 0) {
-      ready = false;
+      return false
     }
   }
-  return ready;
+  return true
 }
 
 //Cheecks to see if the game is still playable based on the number of cards in the prize pool. At zero, returns false.
 function gameCheck(instance){
-
-  let status = true;
+  
   if (instance.prizePool.length === 0) {
-    return false;
+    return false
   }
-  return status;
+  return true
 }
 
 //Will run after having checked if game is done. If it is, will dfind the player with the highest points and return that.
@@ -143,11 +141,11 @@ function endGame (instance) {
 
 // Will run after a player has joined the round. Returns true if the maximum number of players ahave been reached.
 function startCheck(instance) {
-  status = false;
+
   if (instance.playerCount === instance.autoStartPlayers){
-    status = true;
+    return true
   }
-  return status;
+  return false
 }
 
 var gops = {
