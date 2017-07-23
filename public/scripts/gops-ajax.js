@@ -60,7 +60,6 @@ $(() => {
 
     let gameid = $(location).attr('href').split('/')
     gameid = gameid[gameid.length - 1]
-    console.log(gameid)
 
     $.ajax({
       url: '/gops/'+gameid+'/ready_check'
@@ -69,7 +68,7 @@ $(() => {
         if(ready) {
           enableBtn()
         }
-        console.log('ready!')
+        console.log('polling!')
       })
   }
 
