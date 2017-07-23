@@ -16,7 +16,7 @@ module.exports = function(app, passport) {
 
   router.get('/lobby', isLoggedIn, function(req, res, next) {
     let gameList = { }
-    
+
     knex.select('game_id')
       .count('user_id')
       .from('gamedetails')
@@ -46,13 +46,14 @@ module.exports = function(app, passport) {
   })
 
   router.post('/create', function(req,res, next){
-    gopsgame.createGame(req.session.passport.user[0].id)
-    res({redirect: '/users/'+req.session.passport.user[0].id})
+    gopsgame.createGame(req.session.passport.user[0].id);
+    console.log("Post Successful");
+    res.redirect("/lobby");
   });
 
   router.get('/users/:id', function(req, res, next) {
     let gameList = { }
-    
+
     knex.select('game_id', 'name')
       .count('user_id')
       .from('gamedetails')
