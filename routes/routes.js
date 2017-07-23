@@ -46,8 +46,8 @@ module.exports = function(app, passport) {
   })
   
   router.post('/create', function(req,res, next){
-    gopsgame.createGame(req.session.passport.user[0])
-    res.redirect('/users/'+req.session.passport.user[0])
+    gopsgame.createGame(req.session.passport.user[0].id)
+    res({redirect: '/users/'+req.session.passport.user[0].id})
   });
 
   router.get('/users/:id', function(req, res, next) {
@@ -113,9 +113,9 @@ module.exports = function(app, passport) {
   })
 
   function isLoggedIn(req, res, next) {
-    // if (req.isAuthenticated()) {
+    if (req.isAuthenticated()) {
       return next()
-    // }
+    }
 
     res.redirect('/')
   }
