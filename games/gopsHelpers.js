@@ -43,8 +43,8 @@ function addPlayer() {
 //Adds the created player to the game.
 function appendPlayerToGame(instance, user_id) {
 
-  instance[user_id] = addPlayer()
-  instance.playerCount ++;
+    instance[user_id] = addPlayer()
+    instance.playerCount ++;
 };
 
 //Adds cards to hand
@@ -117,7 +117,7 @@ function readyCheck(instance) {
 
 //Cheecks to see if the game is still playable based on the number of cards in the prize pool. At zero, returns false.
 function gameCheck(instance){
-  
+
   if (instance.prizePool.length === 0) {
     return false
   }
@@ -148,6 +148,15 @@ function startCheck(instance) {
   return false
 }
 
+//will check if a player already exists in the instance. Returns true if the player doesn't exist.
+function playerExists(id, instance){
+  if (instance[id] === undefined) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 var gops = {
 
   generateHand : generateHand,
@@ -162,14 +171,16 @@ var gops = {
   readyCheck: readyCheck,
   gameCheck: gameCheck,
   endGame: endGame,
-  startCheck: startCheck
+  startCheck: startCheck,
+  playerExists: playerExists
 }
 
 module.exports = gops;
 
-
+//TESTS
 // let game1 = createGameObject("gops", 1);
 // appendPlayerToGame(game1, 2);
+// appendPlayerToGame(game1, 5);
 // appendPlayerToGame(game1, 5);
 
 // playCard(game1, 10, 1);

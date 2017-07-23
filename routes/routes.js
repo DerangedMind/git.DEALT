@@ -24,7 +24,7 @@ module.exports = function(app, passport) {
       title: ''
     })
   })
-  
+
   router.post('/create', function(req,res, next){
 
   });
@@ -35,7 +35,7 @@ module.exports = function(app, passport) {
       id: req.params.id,
     })
   });
-  
+
   router.get('/auth/facebook',
               passport.authenticate('facebook', {
                 scope:'email'
