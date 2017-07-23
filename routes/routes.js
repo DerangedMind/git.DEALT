@@ -103,12 +103,13 @@ module.exports = function(app, passport) {
   })
 
   router.get('/gops/:game_id/ready_check', isLoggedIn, function(req, res, next) {
-
+    res.send(true)
   })
 
   router.post('/gops/:game_id', isLoggedIn, function(req, res, next) {
     console.log('testing post')
-    playCard(req.params.game_id, req.session.passport.user[0], req.body.card)
+    // playCard(req.params.game_id, req.session.passport.user[0], req.body.card)
+    res.send(200)
 
   })
 
