@@ -2,3 +2,17 @@
   border: black solid 1px;
   height: 350px;
   margin-bottom: 20px; }
+
+.queue-box .col-width {
+  padding: 0px; }
+
+.queue-box .col-width .queue-item {
+  border: 1px solid black;
+  margin: 7px 7px 2px 7px;
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+
+.queue-box .col-width .queue-item #game-owner {
+  font-size: 20px; }

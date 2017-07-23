@@ -1,7 +1,8 @@
 'use strict'
 const express = require('express')
 const router = express.Router()
-const actions = require('../lib/knexFunctions')
+const gopsgame = require('../lib/knexFunctions')
+const knex = require('../knexserver')
 
 module.exports = function(app, passport) {
 
@@ -14,9 +15,28 @@ module.exports = function(app, passport) {
   })
 
   router.get('/lobby', isLoggedIn, function(req, res, next) {
-    res.render('lobby', {
-      title: ''
-    })
+    let gameList = { }
+    
+    knex.select('game_id')
+      .count('user_id')
+      .from('gamedetails')
+      .join('user_games', 'gamedetails.id', '=', 'user_games.game_id')
+      .join('users', 'user_games.user_id', '=', 'users.id')
+      .where('gamedetails.status', '=', 'In Queue')
+      .groupBy('game_id')
+      .orderBy('game_id')
+      .then( function(gameids) {
+        console.log(gameids)
+        gameids.forEach(function (game) {
+          gameList[game.game_id] = { }
+          gameList[game.game_id].players = game.count
+        })
+
+        res.render('lobby', {
+          title: '',
+          gameList: gameList
+        })
+      })
   })
 
   router.get('/create', isLoggedIn, function(req, res, next) {
@@ -26,14 +46,36 @@ module.exports = function(app, passport) {
   })
   
   router.post('/create', function(req,res, next){
-
+    gopsgame.createGame(req.session.passport.user[0].id)
+    res({redirect: '/users/'+req.session.passport.user[0].id})
   });
 
   router.get('/users/:id', function(req, res, next) {
-    res.render('profile', {
-      title: '',
-      id: req.params.id,
-    })
+    let gameList = { }
+    
+    knex.select('game_id', 'name')
+      .count('user_id')
+      .from('gamedetails')
+      .join('user_games', 'gamedetails.id', '=', 'user_games.game_id')
+      .join('users', 'user_games.user_id', '=', 'users.id')
+      .where('users.id', '=', req.params.id)
+      .groupBy('game_id', 'name')
+      .orderBy('game_id')
+      .then( function(gameids) {
+        console.log(gameids)
+
+        gameids.forEach(function (game) {
+          gameList[game.game_id] = { }
+          gameList[game.game_id].players = game.count
+          gameList.name = game.name
+        })
+
+        res.render('profile', {
+          title: '',
+          id: req.params.id,
+          gameList: gameList
+        })
+      })
   });
   
   router.get('/auth/facebook',
@@ -60,9 +102,16 @@ module.exports = function(app, passport) {
     })
   })
 
-  router.post('/gops', isLoggedIn, function(req, res, next) {
-    console.log(req.body.card)
+  router.get('/gops/:game_id/ready_check', isLoggedIn, function(req, res, next) {
+
   })
+
+  router.post('/gops/:game_id', isLoggedIn, function(req, res, next) {
+    console.log('testing post')
+    playCard(req.params.game_id, req.session.passport.user[0], req.body.card)
+
+  })
+
   function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
       return next()

@@ -11,10 +11,13 @@ $(() => {
   function submitCard(event) {
     event.preventDefault()
     
+    let gameid = $(location).attr('href').split('/')
+    gameid = gameid[gameid.length - 1]
+
     let card = $('.selected .rank').text()
     console.log(card)
     $.ajax({
-      url: '/gops', 
+      url: '/gops/'+gameid, 
       method: 'POST',
       data: {
         card: card
@@ -29,5 +32,19 @@ $(() => {
 
       })
     }
+
+  function readyCheck() {
+
+    let gameid = $(location).attr('href').split('/')
+    gameid = gameid[gameid.length - 1]
+    console.log(gameid)
+
+    $.ajax({
+      url: '/gops/'+gameid+'/ready_check'
+    })
+      .then(function(response) {
+
+      })
   }
-)
+
+})
