@@ -2,7 +2,7 @@
       <div class="col-lg-12 col-width">
 
       <% for (let games in gameList) { %>
-        
+          <%= console.log(games, gameList[games]); %>
         <div class="queue-item">
           <div class="col-lg-4 game-owner-col">
             <span id="game-owner">Jack Bauer</span>
@@ -11,13 +11,13 @@
             <span id="game-name">Goofspiel</span>
           </div>
           <div class="col-lg-2 num-players-col">
-            <span id="num-players"><%= gameList[games].players %>/3</span>
+            <span id="num-players"><%= gameList[games].players %>/2</span>
           </div>
           <div class="col-lg-2 join-col">
-            <a class="join btn btn-primary" href="#">Join</a>
+            <a class="join btn btn-primary" href="/gops/<%= games %>">Join</a>
           </div>
-        </div> <!-- closes queue-item -->
+        </div> /*closes queue-item -->*/
 
       <% } %>
-      </div> <!-- closes col-lg-12" -->
+      </div> /*closes col-lg-12" */
     </div>

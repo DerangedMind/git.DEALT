@@ -16,7 +16,7 @@ module.exports = function(app, passport) {
 
   router.get('/lobby', isLoggedIn, function(req, res, next) {
     let gameList = { }
-    
+
     knex.select('game_id')
       .count('user_id')
       .from('gamedetails')
@@ -52,7 +52,7 @@ module.exports = function(app, passport) {
 
   router.get('/users/:id', function(req, res, next) {
     let gameList = { }
-    
+
     knex.select('game_id', 'name')
       .count('user_id')
       .from('gamedetails')
@@ -66,6 +66,7 @@ module.exports = function(app, passport) {
 
         gameids.forEach(function (game) {
           gameList[game.game_id] = { }
+          gameList[game.game_id].id = game.game_id
           gameList[game.game_id].players = game.count
           gameList.name = game.name
         })
