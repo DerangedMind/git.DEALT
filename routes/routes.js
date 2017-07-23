@@ -46,7 +46,8 @@ module.exports = function(app, passport) {
   })
   
   router.post('/create', function(req,res, next){
-
+    gopsgame.createGame(req.session.passport.user[0])
+    res.redirect('/users/'+req.session.passport.user[0])
   });
 
   router.get('/users/:id', function(req, res, next) {
