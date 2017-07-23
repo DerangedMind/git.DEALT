@@ -67,6 +67,7 @@ module.exports = function(app, passport) {
 
         gameids.forEach(function (game) {
           gameList[game.game_id] = { }
+          gameList[game.game_id].id = game.game_id
           gameList[game.game_id].players = game.count
           gameList.name = game.name
         })
