@@ -44,7 +44,7 @@ module.exports = function(app, passport) {
       title: ''
     })
   })
-  
+
   router.post('/create', function(req,res, next){
     gopsgame.createGame(req.session.passport.user[0].id)
     res({redirect: '/users/'+req.session.passport.user[0].id})
@@ -77,7 +77,7 @@ module.exports = function(app, passport) {
         })
       })
   });
-  
+
   router.get('/auth/facebook',
               passport.authenticate('facebook', {
                 scope:'email'

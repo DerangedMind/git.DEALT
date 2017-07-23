@@ -23,7 +23,7 @@ function createGameObject(gameType, user_id) {
   instance[user_id].readyCard = 0
   instance[user_id].points = 0
   instance.prizePool = shuffle(generateHand());
-  instance.autoStartPlayers = 3,
+  instance.autoStartPlayers = 2,
   instance.playerCount = 1
 
   return instance;
@@ -43,8 +43,8 @@ function addPlayer() {
 //Adds the created player to the game.
 function appendPlayerToGame(instance, user_id) {
 
-  instance[user_id] = addPlayer()
-  instance.playerCount ++;
+    instance[user_id] = addPlayer()
+    instance.playerCount ++;
 };
 
 //Adds cards to hand
@@ -78,7 +78,7 @@ function roundWinner(instance) {
   }
 };
 
-//Awards points to the winner of the round. Takes roundWinner as an argument.
+//Awards points to the winner of the round. Takes the return value of roundWinner as an argument.
 function awardPoints(instance, id) {
 
   if (id) {
@@ -116,12 +116,12 @@ function readyCheck(instance) {
 }
 
 //Cheecks to see if the game is still playable based on the number of cards in the prize pool. At zero, returns false.
-function gameCheck(instance){
-  
+function endGameCheck(instance){
+
   if (instance.prizePool.length === 0) {
-    return false
+    return true
   }
-  return true
+  return false
 }
 
 //Will run after having checked if game is done. If it is, will dfind the player with the highest points and return that.
@@ -148,6 +148,23 @@ function startCheck(instance) {
   return false
 }
 
+//will check if a player already exists in the instance. Returns true if the player doesn't exist.
+function playerInGame(id, instance){
+  if (instance[id] === undefined) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+function hasPlayed(id, instance) {
+  if (instance[id].readyCard === 0){
+    return false;
+  } else {
+    return true
+  }
+}
+
 var gops = {
 
   generateHand : generateHand,
@@ -160,16 +177,19 @@ var gops = {
   awardPoints: awardPoints,
   reset: resetReadyCard,
   readyCheck: readyCheck,
-  gameCheck: gameCheck,
+  endGameCheck: endGameCheck,
   endGame: endGame,
-  startCheck: startCheck
+  startCheck: startCheck,
+  playerInGame: playerInGame,
+  hasPlayed: hasPlayed
 }
 
 module.exports = gops;
 
-
+//TESTS
 // let game1 = createGameObject("gops", 1);
 // appendPlayerToGame(game1, 2);
+// appendPlayerToGame(game1, 5);
 // appendPlayerToGame(game1, 5);
 
 // playCard(game1, 10, 1);
