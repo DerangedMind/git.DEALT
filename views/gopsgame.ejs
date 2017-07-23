@@ -2,19 +2,42 @@
 <html>
   <% include ./partials/_head.ejs %>
   
-  <body>
+  <body class="container">
 
     <h1>Riki's GOPS Game</h1>
-
-      <div class="prize-card" data-prize="4">
-        4
+      <div class="row">
+        <div class="col-md-4 col-xs-2"></div>
+        
+        <div class="playingCards col-md-2 col-xs-4">
+          <ul class="deck">
+          <% for (let i = 0; i < playerHand.length - 1; i++) { %>
+            <li>
+              <div class="card back"></div>    
+            </li>
+          <% } %>
+            <li class="deck">
+              <div class="card rank-<%= playerHand[4] %> spades">
+                <span class="rank"><%= playerHand[4] %></span>
+                <span class="suit">&spades;</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-2 col-xs-3" id="submit-card">
+          <button class="btn btn-default">Submit Card</button>
+        </div>
       </div>
+      <div class="row">
+        <div class="col-md-4 col-xs-1"></div>
+        <div class="col-md-4 col-xs-10">
+          <div class="playingCards faceImages">
+            <ul class="table">
+              <% for (let i = 0; i < playerHand.length; i++) { %>
 
-      <div class="btn-group">
-        <% for (let i = 0; i < playerHand.length; i++) { %>
-          <button class="btn btn-default"><%= playerHand[i] %></button>
-        <% } %>
+                  <% include ./partials/_playingCard.ejs %>
+              <% } %>
+            </ul> 
+          </div>
+        </div>
       </div>
-  </body>
-
-</html>
+  <% include ./partials/_footer.ejs %>

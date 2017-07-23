@@ -25,10 +25,17 @@ module.exports = {
               else {
                 console.log(profile)
                 console.log(profile.emails)
+                // sometimes facebook members do not have
+                //  a verified email address, so 
+                //  this ensures they can still create an account.
+                let email = null
+                if (profile.emails !== undefined) {
+                  email = profile.emails[0].value
+                }
                 knex('users')
                   .insert({
                     'name': profile.name.givenName,
-                    'email': profile.emails[0].value,
+                    'email': email,
                     'pass_or_token': profile.provider,
                     'oauth_id': profile.id
                   })

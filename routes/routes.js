@@ -24,7 +24,18 @@ module.exports = function(app, passport) {
       title: ''
     })
   })
+  
+  router.post('/create', function(req,res, next){
 
+  });
+
+  router.get('/users/:id', function(req, res, next) {
+    res.render('profile', {
+      title: '',
+      id: req.params.id,
+    })
+  });
+  
   router.get('/auth/facebook',
               passport.authenticate('facebook', {
                 scope:'email'
@@ -45,7 +56,7 @@ module.exports = function(app, passport) {
     console.log(req.cookies)
     res.render('gopsgame', {
       'title': '',
-      'playerHand': [1,2,3,4,5,6,7,8,9,10,11,12,13]
+      'playerHand': ['A',2,3,4,5,6,7,8,9,10,'J','Q','K']
     })
   })
 
