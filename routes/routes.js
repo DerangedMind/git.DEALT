@@ -60,8 +60,8 @@ module.exports = function(app, passport) {
     })
   })
 
-  router.post('/gops/:game_id', isLoggedIn, function(req, res, next) {
-
+  router.post('/gops', isLoggedIn, function(req, res, next) {
+    console.log(req.body.card)
   })
   function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {

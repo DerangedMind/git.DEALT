@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <% include ./partials/_head.ejs %>
+  <% include ./partials/_headGops.ejs %>
   
   <body class="container">
 
@@ -15,7 +15,7 @@
               <div class="card back"></div>    
             </li>
           <% } %>
-            <li class="deck">
+            <li>
               <div class="card rank-<%= playerHand[4] %> spades">
                 <span class="rank"><%= playerHand[4] %></span>
                 <span class="suit">&spades;</span>
@@ -24,16 +24,15 @@
           </ul>
         </div>
         <div class="col-md-2 col-xs-3" id="submit-card">
-          <button class="btn btn-default">Submit Card</button>
+          <button class="btn btn-default" >Submit Card</button>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-4 col-xs-1"></div>
-        <div class="col-md-4 col-xs-10">
+        <div class="col-md-4 col-xs-0"></div>
+        <div class="col-md-4 col-xs-12">
           <div class="playingCards faceImages">
             <ul class="table">
               <% for (let i = 0; i < playerHand.length; i++) { %>
-
                   <% include ./partials/_playingCard.ejs %>
               <% } %>
             </ul> 
