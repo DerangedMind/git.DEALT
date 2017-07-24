@@ -31,7 +31,7 @@ $(() => {
     })
       .done(function (response) {
         disableBtn()
-        removeCard()
+        playCard(card)
       })
       .fail(function (err) {
 
@@ -51,17 +51,37 @@ $(() => {
           .on('click', submitCard)
   }
 
+  function playCard(card) {
+    $('#prizes .table')
+          .append(`<li>
+              <div class="card rank-${card} hearts">
+                <span class="rank">${card}</span>
+                <span class="suit">&hearts;</span>
+              </div>
+            </li>`)
+    removeCard()
+  }
+
   function removeCard() {
     $('.selected').remove()
 
   }
 
-  function revealCards() {
-
+  function revealCards(cards) {
+    $('#prizes .table').html(``)
+    cards.forEach(function(card) {
+      $('#prizes .table')
+          .append(`<li>
+              <div class="card rank-${card} hearts">
+                <span class="rank">${card}</span>
+                <span class="suit">&hearts;</span>
+              </div>
+            </li>`)
+    })
   }
 
   function updateScore() {
-
+    
   }
 
   function readyCheck() {
@@ -73,6 +93,8 @@ $(() => {
       url: '/gops/'+gameid+'/ready_check'
     })
       .then(function(game) {
+        // readyCheck will return:
+        // score, previously played cards
         if(game) {
           enableBtn()
           revealCards()

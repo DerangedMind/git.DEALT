@@ -2,12 +2,10 @@
   padding-top: 30px; }
 
 #prizes {
-  margin-top: 120px;
-}
+  margin-top: 120px; }
 
 #hand {
-  margin-top: 3em;
-}
+  margin-top: 3em; }
 
 body {
   background-color: #0a7; }
@@ -20,21 +18,13 @@ body {
     position: absolute;
     left: 1.45em;
     right: 2em;
-    bottom: 4em;
-  }
-}
+    bottom: 4em; } }
 
 @media (max-width: 700px) and (orientation: landscape) {
   #prizes {
-    display: inline;
-  }
-
+    display: inline; }
   .deck {
-    display: inline;
-  }
-
+    display: inline; }
   #submit-card {
     display: inline;
-    margin-top: -100px
-  }
-}
+    margin-top: -100px; } }

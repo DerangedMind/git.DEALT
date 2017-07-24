@@ -101,7 +101,20 @@ module.exports = function(app, passport) {
     res.render('gopsgame', {
       'title': '',
       'playerHand': ['A',2,3,4,5,6,7,8,9,10,'J','Q','K'],
-      'readyCards': [1, 2]
+      'readyCards': [1, 2],
+      'players': {
+        '1': {
+          name: 'Riki',
+          played: true,
+          score: 1
+        },
+        '2': {
+          name: 'Garo',
+          played: false,
+          score: 4
+        }
+      },
+      'currentPrize': 5
     })
   })
 
@@ -111,9 +124,9 @@ module.exports = function(app, passport) {
 
   router.post('/gops/:game_id', isLoggedIn, function(req, res, next) {
     console.log('testing post')
-    gopsgame.playCard(req.params.game_id, req.session.passport.user[0].id, req.body.card);
-    gopsgame.endRound(req.params.game_id);
-    gopsgame.getGameWinner(req.params.game_id);
+    // gopsgame.playCard(req.params.game_id, req.session.passport.user[0].id, req.body.card);
+    // gopsgame.endRound(req.params.game_id);
+    // gopsgame.getGameWinner(req.params.game_id);
     res.send(200)
 
   })
