@@ -54,7 +54,7 @@ function appendPlayerToGame(instance, user_id) {
 function playCard(instance, card, user_id) {
 
   instance[user_id].readyCard = card;
-  instance[user_id].hand[card - 1] = null;
+  // instance[user_id].hand[card - 1] = null;
 };
 
 //Returns the winner of the round. Must be used as the argument for award points. Rerturns null should

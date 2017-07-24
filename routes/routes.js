@@ -108,10 +108,10 @@ module.exports = function(app, passport) {
     addPlayer.then(
       res.redirect(`/gops/${gameid}`)
     )
-  }) 
+  })
 
   router.get('/gops/:game_id', isLoggedIn, function(req, res, next) {
-    
+
     // if the number of players in the game is less than 2
     // add the player first
     // then continue
@@ -162,18 +162,21 @@ module.exports = function(app, passport) {
   })
 
   router.post('/gops/:game_id', isLoggedIn, function(req, res, next) {
-    console.log('testing post')
+
+    console.log('testing post');
+
     gopsgame.playCard(req.params.game_id, req.session.passport.user[0].id, req.body.card);
-    gopsgame.endRound(req.params.game_id)
+    gopsgame.removeCard(req.params.game_id,req.session.passport.user[0].id, req.body.card);
+
+    gopsgame.endRound(req.params.game_id);
 
     let getWinner = new Promise(
       (resolve, reject) => {
-        gopsgame.getGameWinner(req.params.game_id)
+        resolve(gopsgame.getGameWinner(req.params.game_id));
       }
     )
     getWinner.then(
-      res.send(200)
-    )
+      res.send(200));
   })
 
   function isLoggedIn(req, res, next) {
