@@ -53,12 +53,13 @@ module.exports = function(app, passport) {
   router.get('/users/:id', function(req, res, next) {
     let gameList = { }
 
-    knex.select('game_id', 'name')
+    knex.select('game_id', 'name', 'status')
       .count('user_id')
       .from('gamedetails')
       .join('user_games', 'gamedetails.id', '=', 'user_games.game_id')
       .join('users', 'user_games.user_id', '=', 'users.id')
       .where('users.id', '=', req.params.id)
+      .where('gamedetails.status', '!=', 'null') /*JU*/
       .groupBy('game_id', 'name')
       .orderBy('game_id')
       .then( function(gameids) {
@@ -69,7 +70,10 @@ module.exports = function(app, passport) {
           gameList[game.game_id].id = game.game_id
           gameList[game.game_id].players = game.count
           gameList.name = game.name
+          gameList[game.game_id].status = gamedetails.status
+          gameList[game.game_id].winner = gamedetails.winner_id /*JU*/
         })
+        console.log(gameList);
 
         res.render('profile', {
           title: '',
