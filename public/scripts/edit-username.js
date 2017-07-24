@@ -20,8 +20,5 @@ $(document).ready(function() {
   });
 });
 
+$('body').scrollspy({ target: '.col-width' });
 
-
-//SHOULD BOX AROUND NAME BE THERE OR ONLY WHEN THEY CLICK EDIT
-//HOW WOULD THEY SAVE?? CMD+ENTER?? SAVE/CANCEL ICONS APPEAR NEXT TO/INSTEAD OF EDIT??
-//CANCEL JUST BY CLICKING ELSEWHERE ON SCREEN???
