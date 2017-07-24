@@ -25,7 +25,6 @@ body {
       width: 90%; }
 
 #pgname {
-  font-weight: 700;}
-  #pgname .suit {
-    font-size: 1.3em;
-  }
+  font-weight: 700; }
+  #pgname #pgname .suit {
+    font-size: 1.3em; }

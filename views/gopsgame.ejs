@@ -5,25 +5,24 @@
   <body class="container">
     <nav class="nav navbar-inverse navbar-fixed-top">
       <div class="row" id="topNav">
-        <div class="col-xs-6">
-          Garo: 4
-        </div>
-        <div class="col-xs-6">
-          You: 1
-        </div>
+        <% for (let id in players) { %>
+          <div class="col-xs-<%= 12/Object.keys(players).length %>">
+            <%= players[id].name %>: <%= players[id].score %>
+          </div>
+        <% } %>
       </div>
     </nav>
     <div class="row">
       <div class="col-md-4 col-xs-0"></div>
       <div class="playingCards col-md-4 col-xs-6" id="prizes">
         <ul class="table">
-          <% for (let i = 0; i < readyCards.length; i++) { %>
+          <% for (let id in players) { %>
+            <% if (players[id].played) { %>
             <li>
-              <div class="card rank-<%= i %> hearts">
-                <span class="rank"><%= i %></span>
-                <span class="suit">&hearts;</span>
+              <div class="card back">
               </div>
             </li>
+            <% } %>
           <% } %>
         </ul>
       </div>
