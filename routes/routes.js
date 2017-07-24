@@ -96,7 +96,13 @@ module.exports = function(app, passport) {
     res.redirect('/')
   })
 
+  router.get('/join/:game_id', isLoggedIn, function(req, res, next) {
+    let gameid = req.params.game_id
+    let userid = req.session.passport.user[0].id
 
+    gopsgame.addPlayer(gameid, userid)
+    res.redirect(`/gops/${gameid}`)
+  }) 
 
   router.get('/gops/:game_id', isLoggedIn, function(req, res, next) {
     
@@ -111,8 +117,6 @@ module.exports = function(app, passport) {
     console.log(req.cookies)
     let gameid = req.params.game_id
     let userid = req.session.passport.user[0].id
-
-    gopsgame.addPlayer(gameid, userid)
 
     knex.select('name')
       .from('users')
