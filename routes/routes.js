@@ -113,7 +113,8 @@ module.exports = function(app, passport) {
           played: false,
           score: 4
         }
-      }
+      },
+      'currentPrize': 5
     })
   })
 
