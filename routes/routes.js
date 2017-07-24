@@ -96,10 +96,24 @@ module.exports = function(app, passport) {
     res.redirect('/')
   })
 
+
+
   router.get('/gops/:game_id', isLoggedIn, function(req, res, next) {
+    
+    // if the number of players in the game is less than 2
+    // add the player first
+    // then continue
+
+    // if the game is full and player is not in game
+    // redirect to lobby
+    // if we can, leave a small .alert
+
     console.log(req.cookies)
     let gameid = req.params.game_id
     let userid = req.session.passport.user[0].id
+
+    gopsgame.addPlayer(gameid, userid)
+
     knex.select('name')
       .from('users')
       .join('user_games', 'user_games.user_id', '=', 'users.id')
