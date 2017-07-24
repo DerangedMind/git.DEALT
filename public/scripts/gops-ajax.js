@@ -25,6 +25,9 @@ $(() => {
       method: 'POST',
       data: {
         card: card
+      },
+      success: function(){
+        location.reload(true);
       }
     })
       .done(function (response) {
