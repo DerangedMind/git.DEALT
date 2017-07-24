@@ -67,6 +67,7 @@ module.exports = function(app, passport) {
 
         gameids.forEach(function (game) {
           gameList[game.game_id] = { }
+          gameList[game.game_id].id = game.game_id
           gameList[game.game_id].players = game.count
           gameList.name = game.name
         })
@@ -104,12 +105,10 @@ module.exports = function(app, passport) {
   })
 
   router.get('/gops/:game_id/ready_check', isLoggedIn, function(req, res, next) {
-
+    res.send(true)
   })
 
   router.post('/gops/:game_id', isLoggedIn, function(req, res, next) {
-    console.log(req.params.game_id)
-    console.log(req.body.card);
     let gameid = req.params.game_id;
     gopsgame.playCard(req.params.game_id, req.session.passport.user[0].id, req.body.card)
     res.redirect(`/gops/${gameid}`)
