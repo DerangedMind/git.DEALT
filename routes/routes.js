@@ -109,11 +109,12 @@ module.exports = function(app, passport) {
   })
 
   router.post('/gops/:game_id', isLoggedIn, function(req, res, next) {
-    console.log('testing post')
-    // playCard(req.params.game_id, req.session.passport.user[0], req.body.card)
-    res.send(200)
-
+    let gameid = req.params.game_id;
+    gopsgame.playCard(req.params.game_id, req.session.passport.user[0].id, req.body.card)
+    res.redirect(`/gops/${gameid}`)
   })
+
+
 
   function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
