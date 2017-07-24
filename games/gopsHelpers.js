@@ -143,6 +143,7 @@ function startCheck(instance) {
 
 //will check if a player already exists in the instance. Returns true if the player doesn't exist.
 function playerInGame(id, instance){
+  console.log(instance)
   if (instance[id] === undefined) {
     return false;
   } else {
