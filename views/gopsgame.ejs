@@ -3,55 +3,66 @@
   <% include ./partials/_headGops.ejs %>
   
   <body class="container">
-
-    <h1>Riki's GOPS Game</h1>
-      <div class="row">
-        <div class="col-md-4 col-xs-1"></div>
-        <div class="playingCards col-md-4 col-xs-10" id="prizes">
-          <ul class="table">
-            <% for (let i = 0; i < readyCards.length; i++) { %>
-              <li>
-                <div class="card rank-<%= i %> hearts">
-                  <span class="rank"><%= i %></span>
-                  <span class="suit">&hearts;</span>
-                </div>
-              </li>
-            <% } %>
-          </ul>
+    <nav class="nav navbar-inverse navbar-fixed-top">
+      <div class="row" id="topNav">
+        <div class="col-xs-6">
+          Garo: 4
         </div>
-      </div> <!-- close first row -->
-      <div class="row"> 
-        <div class="col-md-4 col-xs-2"></div>
-        
-        <div class="playingCards col-md-2 col-xs-4">
-          <ul class="deck">
-          <% for (let i = 0; i < playerHand.length - 1; i++) { %>
+        <div class="col-xs-6">
+          You: 1
+        </div>
+      </div>
+    </nav>
+    <div class="row">
+      <div class="col-md-4 col-xs-0"></div>
+      <div class="playingCards col-md-4 col-xs-6" id="prizes">
+        <ul class="table">
+          <% for (let i = 0; i < readyCards.length; i++) { %>
             <li>
-              <div class="card back"></div>    
-            </li>
-          <% } %>
-            <li>
-              <div class="card rank-<%= playerHand[4] %> spades">
-                <span class="rank"><%= playerHand[4] %></span>
-                <span class="suit">&spades;</span>
+              <div class="card rank-<%= i %> hearts">
+                <span class="rank"><%= i %></span>
+                <span class="suit">&hearts;</span>
               </div>
             </li>
-          </ul>
+          <% } %>
+        </ul>
+      </div>
+      <div class="col-md-4 col-xs-6">
+
+      </div>
+    </div> <!-- close first row -->
+    <div class="row"> 
+      <div class="col-md-4 col-xs-2"></div>
+      
+      <div class="playingCards col-md-2 col-xs-4">
+        <ul class="deck">
+        <% for (let i = 0; i < playerHand.length - 1; i++) { %>
+          <li>
+            <div class="card back"></div>    
+          </li>
+        <% } %>
+          <li>
+            <div class="card rank-<%= playerHand[4] %> spades">
+              <span class="rank"><%= playerHand[4] %></span>
+              <span class="suit">&spades;</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-2 col-xs-3" id="submit-card">
+        <button class="btn btn-default" >Submit Card</button>
+      </div>
+    </div> <!-- close deck/prize row -->
+    <div class="row">
+      <div class="col-md-4 col-xs-0"></div>
+      <div class="col-md-4 col-xs-12" id="hand">
+        <div class="playingCards faceImages">
+          <ul class="table">
+            <% for (let i = 0; i < playerHand.length; i++) { %>
+                <% include ./partials/_playingCard.ejs %>
+            <% } %>
+          </ul> 
         </div>
-        <div class="col-md-2 col-xs-3" id="submit-card">
-          <button class="btn btn-default" >Submit Card</button>
-        </div>
-      </div> <!-- close deck/prize row -->
-      <div class="row">
-        <div class="col-md-4 col-xs-0"></div>
-        <div class="col-md-4 col-xs-12" id="hand">
-          <div class="playingCards faceImages">
-            <ul class="table">
-              <% for (let i = 0; i < playerHand.length; i++) { %>
-                  <% include ./partials/_playingCard.ejs %>
-              <% } %>
-            </ul> 
-          </div>
-        </div>
-      </div> <!-- close hand row -->
+      </div>
+    </div> <!-- close hand row -->
   <% include ./partials/_footer.ejs %>

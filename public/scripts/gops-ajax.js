@@ -60,6 +60,10 @@ $(() => {
 
   }
 
+  function updateScore() {
+
+  }
+
   function readyCheck() {
 
     let gameid = $(location).attr('href').split('/')
@@ -68,9 +72,11 @@ $(() => {
     $.ajax({
       url: '/gops/'+gameid+'/ready_check'
     })
-      .then(function(ready) {
-        if(ready) {
+      .then(function(game) {
+        if(game) {
           enableBtn()
+          revealCards()
+          updateScore()
         }
         console.log('polling!')
       })
