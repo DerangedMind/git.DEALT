@@ -58,6 +58,9 @@
         <div class="playingCards faceImages">
           <ul class="table">
             <% for (let i = 0; i < playerHand.length; i++) { %>
+                <% if (playerHand[i] === null) {
+                  continue
+                } %>
                 <% include ./partials/_playingCard.ejs %>
             <% } %>
           </ul> 
