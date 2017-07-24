@@ -118,12 +118,20 @@ module.exports = function(app, passport) {
     let gameid = req.params.game_id
     let userid = req.session.passport.user[0].id
 
-    knex.select('name')
+    knex.select('user_id', 'name')
       .from('users')
       .join('user_games', 'user_games.user_id', '=', 'users.id')
       .where('user_games.game_id', '=', req.params.game_id)
       .then( function(names) {
         console.log(names)
+
+        let players = { }
+        for (let player in names) {
+          players[player].id = names[player].user_id
+          players[player].name = names[player].name
+          players[player].played = gopsgame.showPlayerPlayed(gameid, names[player].user_id)
+          players[player].score = gopsgame.showPoints(gameid, names[player].user_id)
+        }
         // list of users playing gameid
         // their names
         // their scores
@@ -134,18 +142,7 @@ module.exports = function(app, passport) {
           'title': '',
           'playerHand': gopsgame.showHand(gameid, userid),
           'readyCards': gopsgame.showPlayedCount(gameid),
-          'players': {
-            '1': {
-              name: 'Riki',
-              played: true,
-              score: 1
-            },
-            '2': {
-              name: 'Garo',
-              played: false,
-              score: 4
-            }
-          },
+          'players': players,
           'currentPrize': gopsgame.showPrize(gameid)
         })
     })
