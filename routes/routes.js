@@ -127,6 +127,7 @@ module.exports = function(app, passport) {
 
         let players = { }
         for (let player in names) {
+          players[player] = { }
           players[player].id = names[player].user_id
           players[player].name = names[player].name
           players[player].played = gopsgame.showPlayerPlayed(gameid, names[player].user_id)
