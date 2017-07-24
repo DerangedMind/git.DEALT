@@ -8,3 +8,8 @@
 
 #bottomNav a:first-of-type {
   border-left: 1px solid #555; }
+
+#topNav {
+  padding: 10px;
+  color: #ddd;
+}
