@@ -6,7 +6,7 @@ const cardConverter = {
 }
 //Generates array 1-13 as cards.
 function generateHand() {
-  let hand = ["A",1,2,3,4,5,6,7,8,9,10,"J","Q","K"]
+  let hand = ["A",2,3,4,5,6,7,8,9,10,"J","Q","K"]
   return hand;
 }
 

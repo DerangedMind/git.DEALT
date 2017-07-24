@@ -13,7 +13,6 @@ $(() => {
 
     let gameid = $(location).attr('href').split('/')
     gameid = gameid[gameid.length - 1]
-    console.log(gameid);
 
     let card = $('.selected .rank').text()
 
@@ -21,7 +20,6 @@ $(() => {
       return
     }
 
-    console.log(card)
     $.ajax({
       url: '/gops/'+gameid,
       method: 'POST',
