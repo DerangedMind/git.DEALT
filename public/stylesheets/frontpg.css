@@ -23,3 +23,9 @@ body {
       margin-right: auto;
       margin-left: auto;
       width: 90%; }
+
+#pgname {
+  font-weight: 700;}
+  #pgname .suit {
+    font-size: 1.3em;
+  }
