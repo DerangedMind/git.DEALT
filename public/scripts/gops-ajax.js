@@ -65,21 +65,31 @@ $(() => {
 
   }
 
-  function revealCards(cards) {
+  function revealCards(gameObject) {
+    // go through each player and
+    // show card
+    // and update score
     $('#prizes .table').html(``)
-    cards.forEach(function(card) {
+
+    for (let player in gameObject) {
       $('#prizes .table')
           .append(`<li>
-              <div class="card rank-${card} hearts">
-                <span class="rank">${card}</span>
+              <div class="card rank-${gameObject[player].cardPlayed} hearts">
+                <span class="rank">${gameObject[player].cardPlayed}</span>
                 <span class="suit">&hearts;</span>
               </div>
             </li>`)
-    })
+    }
   }
 
-  function updateScore() {
-    
+  function updateScore(gameObject) {
+    for (let player in gameObject) {
+      $(`#player-${player}`).text(gameObject[player].score)
+    }
+  }
+
+  function updateHiddenCards() {
+    //bonus
   }
 
   function readyCheck() {
@@ -93,10 +103,13 @@ $(() => {
       .then(function(game) {
         // readyCheck will return:
         // score, previously played cards
-        if(game) {
+        if(game.ready) {
           enableBtn()
-          revealCards()
-          updateScore()
+          revealCards(game)
+          updateScore(game)
+        }
+        else {
+          updateHiddenCards()
         }
         console.log('polling!')
       })

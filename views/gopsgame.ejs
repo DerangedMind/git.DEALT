@@ -7,7 +7,7 @@
       <div class="row" id="topNav">
         <% for (let id in players) { %>
           <div class="col-xs-<%= 12/Object.keys(players).length %>">
-            <%= players[id].name %>: <%= players[id].score %>
+            <%= players[id].name %>: <span id="player-<%= id %>"><%= players[id].score %></span>
           </div>
         <% } %>
       </div>
