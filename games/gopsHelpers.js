@@ -1,9 +1,12 @@
+const cardConverter = {
+  "A": 1,
+  "J": 11,
+  "Q": 12,
+  "K": 13
+}
 //Generates array 1-13 as cards.
 function generateHand() {
-  let hand = [];
-  for (let i = 1; i <=13; i++) {
-    hand.push(i);
-  }
+  let hand = ["A",1,2,3,4,5,6,7,8,9,10,"J","Q","K"]
   return hand;
 }
 
@@ -51,7 +54,7 @@ function appendPlayerToGame(instance, user_id) {
 function playCard(instance, card, user_id) {
 
   instance[user_id].readyCard = card;
-  instance[user_id].hand.splice((card - 1), 1);
+  instance[user_id].hand[card - 1] = null;
 };
 
 //Returns the winner of the round. Must be used as the argument for award points. Rerturns null should
@@ -82,26 +85,16 @@ function roundWinner(instance) {
 function awardPoints(instance, id) {
 
   if (id) {
-    instance[id].points += instance.prizePool[0];
-    instance.prizePool.splice(0, 1);
-    resetReadyCard(instance);
+    if (typeof instance.prizePool[0] === "string"){
+      instance[id].points += cardConverter[instance.prizePool[0]];
+    } else {
+      instance[id].points += instance.prizePool[0];
+    }
   } else {
     let message = "Round nulled, two or more players played same card."
-    instance.prizePool.splice(0, 1);
-    resetReadyCard(instance);
     return message;
   }
 }
-
-//Once winner has been decided, resets hand of each player to zero.
-function resetReadyCard(instance) {
-
-  for (let player in instance) {
-    if(instance[player].readyCard !== undefined){
-      instance[player].readyCard = 0
-    }
-  }
-};
 
 //At the begginning of every round, will check to see if every player has played. Status conditional -- needs to run
 //before checking a winner.
@@ -157,6 +150,7 @@ function playerInGame(id, instance){
   }
 }
 
+//Checks to see if a player has already played a card or not.
 function hasPlayed(id, instance) {
   if (instance[id].readyCard === 0){
     return false;
@@ -175,7 +169,6 @@ var gops = {
   playCard : playCard,
   roundWinner : roundWinner,
   awardPoints: awardPoints,
-  reset: resetReadyCard,
   readyCheck: readyCheck,
   endGameCheck: endGameCheck,
   endGame: endGame,
