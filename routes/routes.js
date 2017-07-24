@@ -98,23 +98,38 @@ module.exports = function(app, passport) {
 
   router.get('/gops/:game_id', isLoggedIn, function(req, res, next) {
     console.log(req.cookies)
-    res.render('gopsgame', {
-      'title': '',
-      'playerHand': ['A',2,3,4,5,6,7,8,9,10,'J','Q','K'],
-      'readyCards': [1, 2],
-      'players': {
-        '1': {
-          name: 'Riki',
-          played: true,
-          score: 1
-        },
-        '2': {
-          name: 'Garo',
-          played: false,
-          score: 4
-        }
-      },
-      'currentPrize': 5
+    let gameid = req.params.game_id
+    let userid = req.session.passport.user[0].id
+    knex.select('name')
+      .from('users')
+      .join('user_games', 'user_games.user_id', '=', 'users.id')
+      .where('user_games.game_id', '=', req.params.game_id)
+      .then( function(names) {
+        console.log(names)
+        // list of users playing gameid
+        // their names
+        // their scores
+        // whether they have played
+        // therefore, i need each player's userid
+
+        res.render('gopsgame', {
+          'title': '',
+          'playerHand': gopsgame.showHand(gameid, userid),
+          'readyCards': gopsgame.showPlayedCount(gameid),
+          'players': {
+            '1': {
+              name: 'Riki',
+              played: true,
+              score: 1
+            },
+            '2': {
+              name: 'Garo',
+              played: false,
+              score: 4
+            }
+          },
+          'currentPrize': gopsgame.showPrize(gameid)
+        })
     })
   })
 
