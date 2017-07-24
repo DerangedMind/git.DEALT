@@ -10,7 +10,7 @@ $(() => {
 
   function submitCard(event) {
     event.preventDefault()
-    
+
     let gameid = $(location).attr('href').split('/')
     gameid = gameid[gameid.length - 1]
     console.log(gameid);
@@ -18,12 +18,12 @@ $(() => {
     let card = $('.selected .rank').text()
 
     if (card === '') {
-      return 
+      return
     }
 
     console.log(card)
     $.ajax({
-      url: '/gops/'+gameid, 
+      url: '/gops/'+gameid,
       method: 'POST',
       data: {
         card: card
