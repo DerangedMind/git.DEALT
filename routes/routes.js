@@ -100,8 +100,14 @@ module.exports = function(app, passport) {
     let gameid = req.params.game_id
     let userid = req.session.passport.user[0].id
 
-    gopsgame.addPlayer(gameid, userid)
-    res.redirect(`/gops/${gameid}`)
+    let addPlayer = new Promise(
+      (resolve, reject) => {
+        resolve(gopsgame.addPlayer(gameid, userid))
+      }
+    )
+    addPlayer.then(
+      res.redirect(`/gops/${gameid}`)
+    )
   }) 
 
   router.get('/gops/:game_id', isLoggedIn, function(req, res, next) {
