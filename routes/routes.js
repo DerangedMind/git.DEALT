@@ -156,13 +156,13 @@ module.exports = function(app, passport) {
   })
 
   router.get('/gops/:game_id/ready_check', isLoggedIn, function(req, res, next) {
-    res.send(true)
+    
   })
 
   router.post('/gops/:game_id', isLoggedIn, function(req, res, next) {
     console.log('testing post')
     gopsgame.playCard(req.params.game_id, req.session.passport.user[0].id, req.body.card);
-    // gopsgame.endRound(req.params.game_id);
+    gopsgame.endRound(req.params.game_id);
     // gopsgame.getGameWinner(req.params.game_id);
     res.send(200)
 
