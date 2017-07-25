@@ -1,4 +1,4 @@
-knex = require ("/server/knexserver");
+knex = require ("../../server/knexserver");
 gops = require ("./helpers");
 gops_db = require('./db');
 

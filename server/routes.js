@@ -1,8 +1,8 @@
 'use strict'
 const express = require('express')
 const router = express.Router()
-const gopsgame = require('/games/gops/gameController')
-const knex = require('server/knexserver')
+const gopsgame = require('../games/gops/gameController')
+const knex = require('./knexserver')
 
 module.exports = function(app, passport) {
 
@@ -119,7 +119,6 @@ module.exports = function(app, passport) {
     // redirect to lobby
     // if we can, leave a small .alert
 
-    console.log(req.cookies)
     let gameid = req.params.game_id
     let userid = req.session.passport.user[0].id
 
@@ -179,9 +178,9 @@ module.exports = function(app, passport) {
   })
 
   function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
+    // if (req.isAuthenticated()) {
       return next()
-    }
+    // }
 
     res.redirect('/')
   }

@@ -1,4 +1,4 @@
-const knex = require('/server/knexserver')
+const knex = require('../knexserver')
 
 module.exports = {
   addUser: function (user) {
