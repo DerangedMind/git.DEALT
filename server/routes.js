@@ -1,8 +1,8 @@
 'use strict'
 const express = require('express')
 const router = express.Router()
-const gopsgame = require('../lib/knexFunctions')
-const knex = require('../knexserver')
+const gopsgame = require('/games/gops/gameController')
+const knex = require('server/knexserver')
 
 module.exports = function(app, passport) {
 
@@ -26,7 +26,6 @@ module.exports = function(app, passport) {
       .groupBy('game_id')
       .orderBy('game_id')
       .then( function(gameids) {
-        console.log(gameids)
         gameids.forEach(function (game) {
           gameList[game.game_id] = { }
           gameList[game.game_id].players = game.count
