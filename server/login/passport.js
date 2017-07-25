@@ -1,7 +1,7 @@
 const LocalStrategy     = require('passport-local').Strategy
 const FacebookStrategy  = require('passport-facebook').Strategy
 
-const User              = require('../models/users-helper')
+const User              = require('./signup-fb')
 
 const configAuth        = require('./auth')
 

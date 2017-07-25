@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const path = require('path')
 const favicon = require('serve-favicon')
-const knex = require('./knexserver')
+const knex = require('./server/knexserver')
 
 const logger            = require('morgan')
 const cookieParser      = require('cookie-parser')
@@ -14,7 +14,7 @@ const flash             = require('connect-flash')
 const FacebookStrategy  = require('passport-facebook').Strategy
 const sassMiddleware = require('node-sass-middleware');
 
-require('./config/passport')(passport)
+require('./server/login/passport')(passport)
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(
   sassMiddleware({
-  src: __dirname + '/sass',
+  src: __dirname + '/public/stylesheets/sass',
   dest: __dirname + '/public/stylesheets',
   prefix: '/stylesheets',
   debug: true,
@@ -45,7 +45,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
 
-const routes = require('./routes/routes.js')(app, passport)
+const routes = require('./server/routes.js')(app, passport)
 app.use('/', routes)
 
 // catch 404 and forward to error handler
