@@ -118,6 +118,6 @@ $(() => {
       })
   }
 
-  setInterval(readyCheck, 20000)
+  setInterval(readyCheck, 5000)
 
 })

@@ -15,6 +15,12 @@ module.exports          = function(passport) {
     done(null, user)
   })
 
+  passport.use(new LocalStrategy(
+    function(username, password, done) {
+
+    }
+  ))
+
   passport.use(new FacebookStrategy(
     {
       clientID        : configAuth.facebookAuth.clientID,
@@ -25,7 +31,7 @@ module.exports          = function(passport) {
     },
     function(token, refreshToken, profile, done) {
       process.nextTick(function() {
-        User.verifyUserExists(token, refreshToken, profile, done)
+        User.loginFacebook(token, refreshToken, profile, done)
       })
     }
   ))
