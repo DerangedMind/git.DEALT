@@ -1,14 +1,16 @@
 let gameid = $(location).attr('href').split('/')
     gameid = gameid[gameid.length - 1]
+let gameOver = false
 
 $(() => {
+
+  let currentPrize = $('#prize .rank').text()
 
   $('#submit-card').on('click', submitCard)
 
   $('#hand .table li').on('click', function (event) {
     $('.selected').removeClass('selected')
     $(event.target).parents('li').addClass('selected')
-    console.log($('.selected .rank').text())
   })
 
   function submitCard(event) {
@@ -27,7 +29,6 @@ $(() => {
       }
     }).done(function (cardPlayed) {
         if (cardPlayed) {
-          console.log(cardPlayed)
           disableBtn()
           playCard()  
         }
@@ -47,11 +48,25 @@ $(() => {
 
   function playCard() {
     $('#bets .table')
-          .append(`<li>
+          .append(drawCardBack())
+    removeCard()
+  }
+
+  function drawCardBack() {
+    return `<li>
               <div class="card back">
               </div>
-            </li>`)
-    removeCard()
+            </li>`
+  }
+
+  function drawCardFront(card, suit) {
+    return `<li>
+              <div class="card rank-${card} ${suit}">
+                <span class="rank">${card}</span>
+                <span class="suit">&${suit};</span>
+              </div>
+            </li>`
+
   }
 
   function removeCard() {
@@ -63,37 +78,49 @@ $(() => {
     // go through each player and
     // show card
     // and update score
-
-
     // if turn over...
-    for (let player in gameInfo.players) {
-      if(gameInfo[player].ready === false) {
-        continue
-        $('#bets .table').html(``)
-      }
-      console.log(gameInfo);
-      $('#bets .table')
-          .append(`<li>
-              <div class="card rank-${gameInfo[player].cardPlayed} hearts">
-                <span class="rank">${gameInfo[player].cardPlayed}</span>
-                <span class="suit">&hearts;</span>
-              </div>
-            </li>`)
-    }
+    // for (let player in gameInfo.players) {
+    //   if(gameInfo.players[player].ready === false) {
+    //     continue
+    //   }
+    //   $('#bets .table').html(``)
+    //   console.log(gameInfo);
+    //   $('#bets .table')
+    //       .append(drawCardFront(gameInfo.players[player].cardPlayed), 'hearts')
+    // }
   }
 
   function updateScore(gameInfo) {
     for (let player in gameInfo.players) {
-      console.log(player);
       $(`#player-${player}`).text(gameInfo.players[player].points)
     }
   }
 
   function updatePrize(gameInfo) {
-    $('#prize').html(`<div class="card rank-${gameInfo.prize} spades">
-              <span class="rank">${gameInfo.prize}</span>
-              <span class="suit">&spades;</span>
-            </div>`)
+    if (gameInfo.prize === undefined) {
+      endGame(gameInfo)
+    }
+    if (gameInfo.prize !== currentPrize) {
+      $('#prize').html(drawCardFront(gameInfo.prize, 'spades'))
+      enableBtn()  
+    }
+  }
+
+  function endGame(gameInfo) {
+    gameOver = true
+    let finalScore = 0
+    let winner = ''
+
+    for (let player in gameInfo.players) {
+      if (gameInfo.players[player].points > finalScore) {
+        finalScore = $(`#player-${player} .score`).text()
+        winner = $(`#player-${player}`).text()
+      }
+    }
+    console.log('game over?')
+    $('#win-check')
+        .html(`<div>WINNNER ${winner}</div>`)
+
   }
 
   function updatePlayers(gameInfo) {
@@ -101,37 +128,35 @@ $(() => {
   }
 
   function updatePlayedCards(gameInfo) {
-    console.log(gameInfo)
     $('#bets .table').html('')
     for (let player in gameInfo.players) {
-      if(gameInfo.players[player].ready === false) {
-        console.log('not ready');
-        continue
+      if(gameInfo.players[player].ready === true) {
+        $('#bets .table')
+          .append(drawCardBack())
       }
-      console.log(gameInfo);
-      $('#bets .table')
-          .append(`<li>
-              <div class="card back">
-              </div>
-            </li>`)
+      
     }
   }
 
   function readyCheck() {
-
-    $.ajax({
-      url: '/gops/'+gameid+'/ready_check'
-    })
-      .then(function(gameInfo) {
-        console.log('polling!')
-        // readyCheck will return:
-        // score, previously played cards
-        updatePlayedCards(gameInfo)
-        updateScore(gameInfo)
-        updatePrize(gameInfo)
-        showPlayedCards(gameInfo)
-        
+    if (!gameOver) {
+      $.ajax({
+        url: '/gops/'+gameid+'/ready_check'
       })
+        .then(function(gameInfo) {
+          console.log('polling!')
+          // readyCheck will return:
+          // score, previously played cards
+          if (gameInfo.prize === undefined) {
+            return endGame(gameInfo)
+          }
+          updatePlayedCards(gameInfo)
+          updateScore(gameInfo)
+          updatePrize(gameInfo)
+          showPlayedCards(gameInfo)     
+        })
+    }
+    
   }
 
   setInterval(readyCheck, 5000)

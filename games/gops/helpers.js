@@ -25,12 +25,15 @@ function createGameObject(gameType, user_id) {
     player1: {
       hand: [],
       readyCard: 0,
-      points: 0
+      points: 0,
+      previousTurn: 0
     },
     prizePool: [],
     autoStartPlayers: 2,
     playerCount: 1
   }
+
+  currentTurn = 14 (total turns + 1) - prizePool.length
 
   */
 
@@ -42,6 +45,7 @@ function createGameObject(gameType, user_id) {
   instance[user_id].hand = generateHand()
   instance[user_id].readyCard = 0
   instance[user_id].points = 0
+  instance[user_id].previousTurn = 0
   instance.prizePool = shuffle(generateHand())
   instance.autoStartPlayers = 2
   instance.playerCount = 1

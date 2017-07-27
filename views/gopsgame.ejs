@@ -6,8 +6,7 @@
     <nav class="nav navbar-inverse navbar-fixed-top">
       <div class="row" id="topNav">
         <% for (let id in players) { %>
-          <div class="col-xs-<%= 12/Object.keys(players).length %>">
-            <%= players[id].name %>: <span id="player-<%= players[id].id %>"><%= players[id].score %></span>
+          <div id="player-<%= players[id].id %>" class="col-xs-<%= 12/Object.keys(players).length %>"><%= players[id].name %>: <span class="score"><%= players[id].score %></span>
           </div>
         <% } %>
       </div>
@@ -32,8 +31,7 @@
     </div> <!-- close first row -->
     <div class="row"> 
       <div class="col-md-4 col-xs-2"></div>
-      
-      <div class="playingCards col-md-2 col-xs-4">
+      <div class="playingCards col-md-2 col-xs-4" id="win-check">
         <ul class="deck">
         <% for (let i = 0; i < playerHand.length - 1; i++) { %>
           <li>
