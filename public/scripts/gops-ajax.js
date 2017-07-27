@@ -92,7 +92,7 @@ $(() => {
 
   function updateScore(gameInfo) {
     for (let player in gameInfo.players) {
-      $(`#player-${player}`).text(gameInfo.players[player].points)
+      $(`#player-${player} .score`).text(gameInfo.players[player].points)
     }
   }
 
@@ -118,9 +118,7 @@ $(() => {
       }
     }
     console.log('game over?')
-    $('#win-check')
-        .html(`<div>WINNNER ${winner}</div>`)
-
+    $('#win-check').html(`<div>WINNNER ${winner}</div>`)
   }
 
   function updatePlayers(gameInfo) {
@@ -131,6 +129,8 @@ $(() => {
     $('#bets .table').html('')
     for (let player in gameInfo.players) {
       if(gameInfo.players[player].ready === true) {
+        console.log(gameInfo.players[player].ready)
+        console.log(player)
         $('#bets .table')
           .append(drawCardBack())
       }

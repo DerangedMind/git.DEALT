@@ -22,11 +22,13 @@ function createGameObject(gameType, user_id) {
 
   instance = {
     gameType: 'gops',
-    player1: {
-      hand: [],
-      readyCard: 0,
-      points: 0,
-      previousTurn: 0
+    players: {
+      player1: {
+        hand: [],
+        readyCard: 0,
+        points: 0,
+        previousTurn: 0
+      }
     },
     prizePool: [],
     autoStartPlayers: 2,
@@ -41,16 +43,31 @@ function createGameObject(gameType, user_id) {
   let instance = {}
 
   instance.gameType = gameType
-  instance[user_id] = {}
-  instance[user_id].hand = generateHand()
-  instance[user_id].readyCard = 0
-  instance[user_id].points = 0
-  instance[user_id].previousTurn = 0
+  instance.players = {}
+  instance.players[user_id] = {}
+  instance.players[user_id].hand = generateHand()
+  instance.players[user_id].readyCard = 0
+  instance.players[user_id].points = 0
+  instance.players[user_id].previousTurn = 0
   instance.prizePool = shuffle(generateHand())
   instance.autoStartPlayers = 2
   instance.playerCount = 1
 
   return instance;
+}
+
+//will check if a player already exists in the instance. Returns true if the player doesn't exist.
+function playerInGame(instance, user_id){
+  if (instance.players[user_id] === undefined) {
+    return false;
+  } 
+  return true;
+}
+
+//Adds the created player to the game.
+function appendPlayerToGame(instance, user_id) {
+    instance.players[user_id] = addPlayer()
+    instance.playerCount++
 }
 
 //Returns a player object.
@@ -60,47 +77,34 @@ function addPlayer() {
   player.hand = generateHand()
   player.readyCard = 0
   player.points = 0
+  player.previousTurn = 0
 
   return player
 }
-
-//Adds the created player to the game.
-function appendPlayerToGame(instance, user_id) {
-
-    instance[user_id] = addPlayer()
-    instance.playerCount ++;
-};
-
-//Adds cards to hand
-function playCard(instance, card, user_id) {
-
-  instance[user_id].readyCard = card;
-  // instance[user_id].hand[card - 1] = null;
-};
 
 //Returns the winner of the round. Must be used as the argument for award points. Rerturns null should
 //Two players have played the same highest card.
 function roundWinner(instance) {
 
-  let highestCard = 0;
-  let winner = 0;
-  let multipleHighest = false;
+  let highestCard = 0
+  let winner = 0
+  let multipleHighest = false
 
-  for (let player in instance){
-    if ((instance[player].readyCard === highestCard)){
-      multipleHighest = true;
-    } else if (instance[player].readyCard > highestCard){
-      highestCard = instance[player].readyCard;
+  for (let player in instance.players){
+    if ((instance.players[player].readyCard === highestCard)){
+      multipleHighest = true
+    } else if (instance.players[player].readyCard > highestCard){
+      highestCard = instance.players[player].readyCard
       multipleHighest = false
-      winner = player;
+      winner = player
     }
   }
   if (multipleHighest === false) {
-    return winner;
+    return winner
   } else {
-    return null;
+    return null
   }
-};
+}
 
 //Awards points to the winner of the round. Takes the return value of roundWinner as an argument.
 function awardPoints(instance, id) {
@@ -121,8 +125,8 @@ function awardPoints(instance, id) {
 //before checking a winner.
 function readyCheck(instance) {
 
-  for (let player in instance) {
-    if(instance[player].readyCard === 0) {
+  for (let player in instance.players) {
+    if(instance.players[player].readyCard === 0) {
       return false
     }
   }
@@ -144,9 +148,9 @@ function endGame (instance) {
   let gameWinner = 0;
   let totalPoints = 0;
 
-  for (let player in instance) {
-    if ((instance[player].points) > totalPoints){
-      totalPoints = instance[player].points;
+  for (let player in instance.players) {
+    if ((instance.players[player].points) > totalPoints){
+      totalPoints = instance.players[player].points;
       gameWinner = player;
     }
   }
@@ -162,22 +166,17 @@ function startCheck(instance) {
   return false
 }
 
-//will check if a player already exists in the instance. Returns true if the player doesn't exist.
-function playerInGame(id, instance){
-  if (instance[id] === undefined) {
-    return false;
-  } else {
-    return true;
-  }
+//Adds cards to hand
+function playCard(instance, card, user_id) {
+  instance.players[user_id].readyCard = card;
 }
 
 //Checks to see if a player has already played a card or not.
 function hasPlayed(id, instance) {
-  if (instance[id].readyCard === 0){
+  if (instance.players[id].readyCard === 0){
     return false;
-  } else {
-    return true
   }
+  return true
 }
 
 var gops = {

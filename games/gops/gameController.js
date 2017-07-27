@@ -51,7 +51,7 @@ function createGame(userid){
 //Using gameID from URL and userID from cookies, creates a player object in the appropriate game. Also checks if the user is alreasdy in
 //the game.
 function addPlayer(gameid, userid) {
-  if(!gops.playerInGame(userid, gops_db[gameid])) {
+  if(!gops.playerInGame(gops_db[gameid], userid)) {
     gops.appendPlayerToGame(gops_db[gameid], userid);
     knex('user_games')
       .insert({
@@ -84,22 +84,11 @@ function startGame(gameid) {
 //Sets selected card as readyCard for player. Will also check to see if that player has played a card already this round.
 function playCard(gameid, userid, card) {
   if(!gops.hasPlayed(userid, gops_db[gameid])){
-      gops_db[gameid][userid].readyCard = cardConverter[card];
+      gops_db[gameid].players[userid].readyCard = cardConverter[card];
       return true
   } 
   // if no card played
   return false
-}
-
-//TO TRIGGER: Should run after each player submits a card,
-//System will run a check to see if everyone has submitted a card. If true, decides round winner and award points.
-function endRound(gameid) {
-
-  if(gops.readyCheck(gops_db[gameid])) {
-    gops.awardPoints(gops_db[gameid], gops.roundWinner(gops_db[gameid]))
-    resetHand(gameid);
-    removePrize(gameid);
-  }
 }
 
 //TO TRIGGER: Should trigger after endRound function
@@ -122,7 +111,7 @@ function getGameWinner(gameid) {
 }
 
 function cardValid(gameid, userid, card){
-  if(gops_db[gameid][userid].hand[card - 1] !== null){
+  if(gops_db[gameid].players[userid].hand[card - 1] !== null){
     return true
   }
   return false
@@ -131,7 +120,7 @@ function cardValid(gameid, userid, card){
 function getPlayerList(game_id) {
   
   let players = []
-  for (let player in gops_db[game_id]) {
+  for (let player in gops_db[game_id].players) {
     players.push(player.user_id)
   }
   console.log(players)
@@ -141,11 +130,11 @@ function getPlayerList(game_id) {
 function showPlayedList(gameid) {
   let playedCards = { }
   
-  for (let player in gops_db[gameid]) {
+  for (let player in gops_db[gameid].players) {
     
     playedCards.players[player] = { }
-    playedCards.players[player].cardPlayed = gops_db[gameid][player].readyCard
-    playedCards.players[player].score = gops_db[gameid][player].points
+    playedCards.players[player].cardPlayed = gops_db[gameid].players[player].readyCard
+    playedCards.players[player].score = gops_db[gameid].players[player].points
   }
   playedCards.ready = (showPlayedCount === 2)
 
@@ -155,12 +144,78 @@ function showPlayedList(gameid) {
 function showPlayedCount(gameid) {
   let playedCounter = 0
 
-  for (let player in gops_db[gameid]) {
-    if (gops_db[gameid][player].readyCard > 0) {
+  for (let player in gops_db[gameid].players) {
+    if (gops_db[gameid].players[player].readyCard > 0) {
       playedCounter++
     }
   }
   return playedCounter
+}
+
+
+
+function showPlayerPlayed(gameid, userid) {
+  if (gops_db[gameid].players[userid].readyCard > 0) {
+    return true
+  }
+  else return false
+}
+
+//When called, shows a given player's hand
+function showHand(gameid, userid){
+  return gops_db[gameid].players[userid].hand
+}
+
+//When called, shows points for a given user.
+function showPoints(gameid, userid) {
+  return gops_db[gameid].players[userid].points
+}
+
+function showCard(gameid, userid) {
+  let readyCard = gops_db[gameid].players[userid].readyCard;
+    for (let card in cardConverter){
+      if (cardConverter[card] === readyCard) {
+        readyCard = card
+      }
+    }
+  return readyCard;
+}
+
+//When called, shows current prize for the round.
+function showPrize(gameid) {
+  return gops_db[gameid].prizePool[0]
+}
+
+//TO TRIGGER: Should run after each player submits a card,
+//System will run a check to see if everyone has submitted a card. If true, decides round winner and award points.
+function endRound(gameid) {
+
+  if(gops.readyCheck(gops_db[gameid])) {
+    gops.awardPoints(gops_db[gameid], gops.roundWinner(gops_db[gameid]))
+    resetHand(gameid)
+    removePrize(gameid)
+  }
+}
+
+//When called, will reset the readyCard of all players to 0.
+function resetHand(gameid) {
+  for(let player in gops_db[gameid].players){
+    gops_db[gameid].players[player].readyCard = 0
+  }
+}
+
+//When called, will remove the prize card from the pool
+function removePrize(gameid){
+  gops_db[gameid].prizePool.splice(0,1)
+}
+
+//Removes card from hand
+function removeCard(gameid, userid, card){
+  for (let i = 0; i < gops_db[gameid].players[userid].hand.length; i++){
+    if(gops_db[gameid].players[userid].hand[i] == card){
+      gops_db[gameid].players[userid].hand.splice(i, 1)
+    }
+  }
 }
 
 function showGameInfo(game_id) {
@@ -175,63 +230,6 @@ function showGameInfo(game_id) {
 
   return gameInfo
 }
-
-function showPlayerPlayed(gameid, userid) {
-  if (gops_db[gameid][userid].readyCard > 0) {
-    return true
-  }
-  else return false
-}
-
-//When called, shows a given player's hand
-function showHand(gameid, userid){
-  return gops_db[gameid][userid].hand;
-}
-
-//When called, shows points for a given user.
-function showPoints(gameid, userid) {
-  return gops_db[gameid][userid].points;
-}
-
-function showCard(gameid, userid) {
-  let readyCard = gops_db[gameid][userid].readyCard;
-    for (let card in cardConverter){
-      if (cardConverter[card] === readyCard) {
-        readyCard = card
-      }
-    }
-  return readyCard;
-}
-
-//When called, shows current prize for the round.
-function showPrize(gameid) {
-  return gops_db[gameid].prizePool[0];
-}
-
-//When called, will reset the hand of all players to 0.
-function resetHand(gameid) {
-
-  for(let player in gops_db[gameid]){
-    if(gops_db[gameid][player].readyCard !== undefined){
-      gops_db[gameid][player].readyCard = 0
-    }
-  }
-}
-
-//When called, will remove the prize card from the pool
-function removePrize(gameid){
-  gops_db[gameid].prizePool.splice(0,1);
-  console.log(gops_db[gameid]);
-}
-
-//Removes card from hand
-function removeCard(gameid, userid, card){
-  for (let i = 0; i < gops_db[gameid][userid].hand.length; i++){
-    if(gops_db[gameid][userid].hand[i] == card){
-      gops_db[gameid][userid].hand.splice(i, 1);
-    }
-  }
-};
 
 // // TESTS
 
