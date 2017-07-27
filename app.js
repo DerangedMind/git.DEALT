@@ -1,18 +1,19 @@
-const express = require('express')
-const app = express()
-const path = require('path')
-const favicon = require('serve-favicon')
-const knex = require('./server/knexserver')
+const express           = require('express')
+const app               = express()
+const path              = require('path')
+const favicon           = require('serve-favicon')
+const knex              = require('./server/knexserver')
 
 const logger            = require('morgan')
 const cookieParser      = require('cookie-parser')
 const bodyParser        = require('body-parser')
-const session           = require ('express-session')
+const session           = require('express-session')
+const bcrypt            = require('bcryptjs')
 
 const passport          = require('passport')
 const flash             = require('connect-flash')
 const FacebookStrategy  = require('passport-facebook').Strategy
-const sassMiddleware = require('node-sass-middleware');
+const sassMiddleware    = require('node-sass-middleware');
 
 require('./server/login/passport')(passport)
 

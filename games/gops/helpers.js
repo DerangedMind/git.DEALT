@@ -18,15 +18,32 @@ function shuffle(arr) {
 
 //Creates Game hardcode gameType for the time being.
 function createGameObject(gameType, user_id) {
+  /*
+
+  instance = {
+    gameType: 'gops',
+    player1: {
+      hand: [],
+      readyCard: 0,
+      points: 0
+    },
+    prizePool: [],
+    autoStartPlayers: 2,
+    playerCount: 1
+  }
+
+  */
+
+
   let instance = {}
 
-  instance.gameType = gameType;
-  instance[user_id] = {};
+  instance.gameType = gameType
+  instance[user_id] = {}
   instance[user_id].hand = generateHand()
   instance[user_id].readyCard = 0
   instance[user_id].points = 0
-  instance.prizePool = shuffle(generateHand());
-  instance.autoStartPlayers = 2,
+  instance.prizePool = shuffle(generateHand())
+  instance.autoStartPlayers = 2
   instance.playerCount = 1
 
   return instance;
@@ -36,11 +53,11 @@ function createGameObject(gameType, user_id) {
 function addPlayer() {
 
   let player = {}
-  player.hand = generateHand();
-  player.readyCard = 0;
-  player.points = 0;
+  player.hand = generateHand()
+  player.readyCard = 0
+  player.points = 0
 
-  return player;
+  return player
 }
 
 //Adds the created player to the game.

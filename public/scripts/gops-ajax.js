@@ -1,3 +1,6 @@
+let gameid = $(location).attr('href').split('/')
+    gameid = gameid[gameid.length - 1]
+
 $(() => {
 
   $('#submit-card').on('click', submitCard)
@@ -11,11 +14,7 @@ $(() => {
   function submitCard(event) {
     event.preventDefault()
 
-    let gameid = $(location).attr('href').split('/')
-    gameid = gameid[gameid.length - 1]
-
     let card = $('.selected .rank').text()
-
     if (card === '') {
       return
     }
@@ -25,24 +24,18 @@ $(() => {
       method: 'POST',
       data: {
         card: card
-      },
-      success: function(){
-        location.reload(true);
       }
-    })
-      .done(function (response) {
-        disableBtn()
-        playCard(card)
-      })
-      .fail(function (err) {
-
+    }).done(function (cardPlayed) {
+        if (cardPlayed) {
+          console.log(cardPlayed)
+          disableBtn()
+          playCard()  
+        }
       })
   }
 
   function disableBtn() {
     $('#submit-card')
-          .off('click', submitCard)
-          .prop('disabled', true)
           .text('Waiting for other players...')
   }
 
@@ -52,12 +45,10 @@ $(() => {
           .on('click', submitCard)
   }
 
-  function playCard(card) {
-    $('#prizes .table')
+  function playCard() {
+    $('#bets .table')
           .append(`<li>
-              <div class="card rank-${card} hearts">
-                <span class="rank">${card}</span>
-                <span class="suit">&hearts;</span>
+              <div class="card back">
               </div>
             </li>`)
     removeCard()
@@ -68,53 +59,78 @@ $(() => {
 
   }
 
-  function revealCards(gameObject) {
+  function showPlayedCards(gameInfo) {
     // go through each player and
     // show card
     // and update score
-    $('#prizes .table').html(``)
 
-    for (let player in gameObject) {
-      $('#prizes .table')
+
+    // if turn over...
+    for (let player in gameInfo.players) {
+      if(gameInfo[player].ready === false) {
+        continue
+        $('#bets .table').html(``)
+      }
+      console.log(gameInfo);
+      $('#bets .table')
           .append(`<li>
-              <div class="card rank-${gameObject[player].cardPlayed} hearts">
-                <span class="rank">${gameObject[player].cardPlayed}</span>
+              <div class="card rank-${gameInfo[player].cardPlayed} hearts">
+                <span class="rank">${gameInfo[player].cardPlayed}</span>
                 <span class="suit">&hearts;</span>
               </div>
             </li>`)
     }
   }
 
-  function updateScore(gameObject) {
-    for (let player in gameObject) {
-      $(`#player-${player}`).text(gameObject[player].score)
+  function updateScore(gameInfo) {
+    for (let player in gameInfo.players) {
+      console.log(player);
+      $(`#player-${player}`).text(gameInfo.players[player].points)
     }
   }
 
-  function updateHiddenCards() {
-    //bonus
+  function updatePrize(gameInfo) {
+    $('#prize').html(`<div class="card rank-${gameInfo.prize} spades">
+              <span class="rank">${gameInfo.prize}</span>
+              <span class="suit">&spades;</span>
+            </div>`)
+  }
+
+  function updatePlayers(gameInfo) {
+
+  }
+
+  function updatePlayedCards(gameInfo) {
+    console.log(gameInfo)
+    $('#bets .table').html('')
+    for (let player in gameInfo.players) {
+      if(gameInfo.players[player].ready === false) {
+        console.log('not ready');
+        continue
+      }
+      console.log(gameInfo);
+      $('#bets .table')
+          .append(`<li>
+              <div class="card back">
+              </div>
+            </li>`)
+    }
   }
 
   function readyCheck() {
 
-    let gameid = $(location).attr('href').split('/')
-    gameid = gameid[gameid.length - 1]
-
     $.ajax({
       url: '/gops/'+gameid+'/ready_check'
     })
-      .then(function(game) {
+      .then(function(gameInfo) {
+        console.log('polling!')
         // readyCheck will return:
         // score, previously played cards
-        if(game.ready) {
-          enableBtn()
-          revealCards(game)
-          updateScore(game)
-        }
-        else {
-          updateHiddenCards()
-        }
-        console.log('polling!')
+        updatePlayedCards(gameInfo)
+        updateScore(gameInfo)
+        updatePrize(gameInfo)
+        showPlayedCards(gameInfo)
+        
       })
   }
 

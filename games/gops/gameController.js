@@ -85,9 +85,10 @@ function startGame(gameid) {
 function playCard(gameid, userid, card) {
   if(!gops.hasPlayed(userid, gops_db[gameid])){
       gops_db[gameid][userid].readyCard = cardConverter[card];
-  } else {
-    console.log("You've already played a card this round!")
-  }
+      return true
+  } 
+  // if no card played
+  return false
 }
 
 //TO TRIGGER: Should run after each player submits a card,
@@ -127,13 +128,24 @@ function cardValid(gameid, userid, card){
   return false
 }
 
+function getPlayerList(game_id) {
+  
+  let players = []
+  for (let player in gops_db[game_id]) {
+    players.push(player.user_id)
+  }
+  console.log(players)
+  return Object.keys(gops_db[game_id])
+}
+
 function showPlayedList(gameid) {
   let playedCards = { }
-
-  for (let players in gops_db[gameid]) {
-    playedCards[players] = { }
-    playedCards[players].cardPlayed = gops_db[gameid][players].readyCard
-    playedCards[players].score = gops_db[gameid][players].points
+  
+  for (let player in gops_db[gameid]) {
+    
+    playedCards.players[player] = { }
+    playedCards.players[player].cardPlayed = gops_db[gameid][player].readyCard
+    playedCards.players[player].score = gops_db[gameid][player].points
   }
   playedCards.ready = (showPlayedCount === 2)
 
@@ -143,12 +155,25 @@ function showPlayedList(gameid) {
 function showPlayedCount(gameid) {
   let playedCounter = 0
 
-  for (let players in gops_db[gameid]) {
-    if (gops_db[gameid][players].readyCard > 0) {
+  for (let player in gops_db[gameid]) {
+    if (gops_db[gameid][player].readyCard > 0) {
       playedCounter++
     }
   }
   return playedCounter
+}
+
+function showGameInfo(game_id) {
+  let gameInfo = { }
+  gameInfo.players = { }
+  for (let user_id in gops_db[game_id]) {
+    gameInfo.players[user_id] = { }
+    gameInfo.players[user_id].points = showPoints(game_id, user_id)
+    gameInfo.players[user_id].ready = showPlayerPlayed(game_id, user_id)
+  }
+  gameInfo.prize = showPrize(game_id)
+
+  return gameInfo
 }
 
 function showPlayerPlayed(gameid, userid) {
@@ -241,7 +266,8 @@ const knexFunctions = {
   cardValid: cardValid,
   showPlayedCount: showPlayedCount,
   showPlayerPlayed: showPlayerPlayed,
-  removeCard: removeCard
+  removeCard: removeCard,
+  showGameInfo: showGameInfo
 }
 
 module.exports = knexFunctions;

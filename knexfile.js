@@ -10,6 +10,12 @@ module.exports = {
       user: process.env.DEV_USER,
       password: process.env.DEV_PASSWORD,
       database: process.env.DEV_DATABASE
+    },
+    seeds: {
+      directory: './db/seeds'
+    },
+    migrations: {
+      directory: './db/migrations'
     }
   },
 
@@ -37,7 +43,11 @@ module.exports = {
       max: 10
     },
     migrations: {
-      tableName: 'knex_migrations'
+      tableName: 'knex_migrations',
+      directory: './db/migrations'
+    },
+    seeds: {
+      directory: './db/seeds'
     },
     ssl: true
   }

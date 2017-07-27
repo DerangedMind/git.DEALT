@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-const config = require('../db/knexfile')
+const config = require('../knexfile')
 
 const env = process.env.DATABASE_URL ? 'production' : 'development'
 console.log(`

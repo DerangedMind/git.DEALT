@@ -67,7 +67,7 @@ module.exports = function(app, passport) {
         gameids.forEach(function (game) {
           gameList[game.game_id] = { }
           gameList[game.game_id].id = game.game_id
-          gameList[game.game_id].players = game.count
+          gameList[game.game_id].players = gopsgame.getPlayerList(game.game_id)
           gameList.name = game.name
         })
 
@@ -78,6 +78,13 @@ module.exports = function(app, passport) {
         })
       })
   });
+
+  router.post('/login',
+          passport.authenticate('local', {
+            successRedirect: '/lobby',
+            failureRedirect: '/',
+            failureFlash: true
+          }))
 
   router.get('/auth/facebook',
               passport.authenticate('facebook', {
@@ -154,18 +161,16 @@ module.exports = function(app, passport) {
   })
 
   router.get('/gops/:game_id/ready_check', isLoggedIn, function(req, res, next) {
-    let gameObject = gopsgame.showPlayedList(req.params.game_id)
-
-    res.send(gameObject)
+    res.send(gopsgame.showGameInfo(req.params.game_id))
   })
 
   router.post('/gops/:game_id', isLoggedIn, function(req, res, next) {
 
     console.log('testing post');
 
-    gopsgame.playCard(req.params.game_id, req.session.passport.user[0].id, req.body.card);
+    let cardPlayed = gopsgame.playCard(req.params.game_id, req.session.passport.user[0].id, req.body.card);
+    
     gopsgame.removeCard(req.params.game_id,req.session.passport.user[0].id, req.body.card);
-
     gopsgame.endRound(req.params.game_id);
 
     let getWinner = new Promise(
@@ -174,7 +179,7 @@ module.exports = function(app, passport) {
       }
     )
     getWinner.then(
-      res.send(200));
+      res.send(cardPlayed));
   })
 
   function isLoggedIn(req, res, next) {

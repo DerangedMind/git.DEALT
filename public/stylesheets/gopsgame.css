@@ -1,7 +1,7 @@
 #submit-card {
   padding-top: 30px; }
 
-#prizes {
+#bets {
   margin-top: 120px; }
 
 #hand {
@@ -21,7 +21,7 @@ body {
     bottom: 4em; } }
 
 @media (max-width: 700px) and (orientation: landscape) {
-  #prizes {
+  #bets {
     display: inline; }
   .deck {
     display: inline; }

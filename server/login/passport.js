@@ -1,8 +1,6 @@
 const LocalStrategy     = require('passport-local').Strategy
 const FacebookStrategy  = require('passport-facebook').Strategy
-
 const User              = require('./signup-fb')
-
 const configAuth        = require('./auth')
 
 module.exports          = function(passport) {
@@ -15,9 +13,20 @@ module.exports          = function(passport) {
     done(null, user)
   })
 
-  passport.use(new LocalStrategy(
-    function(username, password, done) {
-
+  passport.use(new LocalStrategy( {
+        usernameField : 'username',
+        passwordField : 'password',
+        passReqToCallback : true 
+    },
+    function(req, username, password, done) {
+      process.nextTick(function () {
+        let login = new Promise((resolve, reject) => {
+          User.loginLocal(username, password, done) 
+        })
+        login.then(function (user) {
+          console.log('login local complete', user)
+        })    
+      })
     }
   ))
 
