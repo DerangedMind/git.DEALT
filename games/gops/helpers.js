@@ -1,9 +1,19 @@
 const cardConverter = {
   "A": 1,
+  "2": 2,
+  "3": 3,
+  "4": 4,
+  "5": 5,
+  "6": 6,
+  "7": 7,
+  "8": 8,
+  "9": 9,
+  "10":10,
   "J": 11,
   "Q": 12,
   "K": 13
 }
+
 //Generates array 1-13 as cards.
 function generateHand() {
   let hand = ["A",2,3,4,5,6,7,8,9,10,"J","Q","K"]
@@ -86,45 +96,37 @@ function addPlayer() {
 //Two players have played the same highest card.
 function roundWinner(instance) {
 
-  let highestCard = 0
+  let tie = false
   let winner = 0
-  let multipleHighest = false
+  let highestCard = 0
 
-  for (let player in instance.players){
+  for (let player in instance.players) {
     if ((instance.players[player].readyCard === highestCard)){
-      multipleHighest = true
-    } else if (instance.players[player].readyCard > highestCard){
-      highestCard = instance.players[player].readyCard
-      multipleHighest = false
+      tie = true
+    } 
+    else if (instance.players[player].readyCard > highestCard){
+      tie = false
       winner = player
+      highestCard = instance.players[player].readyCard
     }
   }
-  if (multipleHighest === false) {
+
+  if (tie === false) {
     return winner
-  } else {
-    return null
-  }
+  } 
+  return null
 }
 
 //Awards points to the winner of the round. Takes the return value of roundWinner as an argument.
-function awardPoints(instance, id) {
-
-  if (id) {
-    if (typeof instance.prizePool[0] === "string"){
-      instance[id].points += cardConverter[instance.prizePool[0]];
-    } else {
-      instance[id].points += instance.prizePool[0];
-    }
-  } else {
-    let message = "Round nulled, two or more players played same card."
-    return message;
-  }
+function awardPoints(instance, user_id) {
+  if (user_id) {
+    instance.players[user_id].points += cardConverter[instance.prizePool[0]];
+  } 
 }
 
 //At the begginning of every round, will check to see if every player has played. Status conditional -- needs to run
 //before checking a winner.
-function readyCheck(instance) {
-
+function endRoundCheck(instance) {
   for (let player in instance.players) {
     if(instance.players[player].readyCard === 0) {
       return false
@@ -189,7 +191,7 @@ var gops = {
   playCard : playCard,
   roundWinner : roundWinner,
   awardPoints: awardPoints,
-  readyCheck: readyCheck,
+  endRoundCheck: endRoundCheck,
   endGameCheck: endGameCheck,
   endGame: endGame,
   startCheck: startCheck,

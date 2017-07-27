@@ -116,6 +116,20 @@ module.exports = function(app, passport) {
     )
   })
 
+  router.post('/gops/:game_id', isLoggedIn, function(req, res, next) {
+
+    let cardPlayed = gopsgame.playCard(req.params.game_id, req.session.passport.user[0].id, req.body.card);
+    gopsgame.endRound(req.params.game_id);
+
+    let getWinner = new Promise(
+      (resolve, reject) => {
+        resolve(gopsgame.getGameWinner(req.params.game_id));
+      }
+    )
+    getWinner.then(
+      res.send(cardPlayed));
+  })
+
   router.get('/gops/:game_id', isLoggedIn, function(req, res, next) {
 
     // if the number of players in the game is less than 2
@@ -129,57 +143,27 @@ module.exports = function(app, passport) {
     let gameid = req.params.game_id
     let userid = req.session.passport.user[0].id
 
-    knex.select('user_id', 'name')
-      .from('users')
-      .join('user_games', 'user_games.user_id', '=', 'users.id')
-      .where('user_games.game_id', '=', req.params.game_id)
-      .then( function(names) {
-        console.log(names)
-
-        let players = { }
-        for (let player in names) {
-          players[player] = { }
-          players[player].id = names[player].user_id
-          players[player].name = names[player].name
-          players[player].played = gopsgame.showPlayerPlayed(gameid, names[player].user_id)
-          players[player].score = gopsgame.showPoints(gameid, names[player].user_id)
-        }
-        // list of users playing gameid
-        // their names
-        // their scores
-        // whether they have played
-        // therefore, i need each player's userid
-
-        res.render('gopsgame', {
-          'title': '',
-          'playerHand': gopsgame.showHand(gameid, userid),
-          'readyCards': gopsgame.showPlayedCount(gameid),
-          'players': players,
-          'currentPrize': gopsgame.showPrize(gameid)
-        })
+    let joinGame = new Promise (
+      (resolve, reject) => {
+        resolve(gopsgame.joinGame(req.params.game_id))
     })
+    joinGame.then((gameObject) => {
+      console.log(gameObject);
+      res.render('gopsgame', {
+                'title': '',
+                'playerHand': gopsgame.showHand(gameid, userid),
+                'readyCards': gopsgame.showPlayedCount(gameid),
+                'players': gameObject,
+                'currentPrize': gopsgame.showPrize(gameid)
+              })
+    })
+    .catch((reason) => {
+
+    }) 
   })
 
   router.get('/gops/:game_id/ready_check', isLoggedIn, function(req, res, next) {
     res.send(gopsgame.showGameInfo(req.params.game_id))
-  })
-
-  router.post('/gops/:game_id', isLoggedIn, function(req, res, next) {
-
-    console.log('testing post');
-
-    let cardPlayed = gopsgame.playCard(req.params.game_id, req.session.passport.user[0].id, req.body.card);
-    
-    gopsgame.removeCard(req.params.game_id,req.session.passport.user[0].id, req.body.card);
-    gopsgame.endRound(req.params.game_id);
-
-    let getWinner = new Promise(
-      (resolve, reject) => {
-        resolve(gopsgame.getGameWinner(req.params.game_id));
-      }
-    )
-    getWinner.then(
-      res.send(cardPlayed));
   })
 
   function isLoggedIn(req, res, next) {

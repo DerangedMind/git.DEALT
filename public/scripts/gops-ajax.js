@@ -35,6 +35,26 @@ $(() => {
       })
   }
 
+  function readyCheck() {
+    if (!gameOver) {
+      $.ajax({
+        url: '/gops/'+gameid+'/ready_check'
+      })
+        .then(function(gameInfo) {
+          console.log('polling!')
+          // readyCheck will return:
+          // score, previously played cards
+          if (gameInfo.prize === undefined) {
+            return endGame(gameInfo)
+          }
+          updatePlayedCards(gameInfo)
+          updateScore(gameInfo)
+          updatePrize(gameInfo)
+          showPlayedCards(gameInfo)     
+        })
+    }
+  }
+
   function disableBtn() {
     $('#submit-card')
           .text('Waiting for other players...')
@@ -101,6 +121,7 @@ $(() => {
       endGame(gameInfo)
     }
     if (gameInfo.prize !== currentPrize) {
+      currentPrize = gameInfo.prize
       $('#prize').html(drawCardFront(gameInfo.prize, 'spades'))
       enableBtn()  
     }
@@ -117,7 +138,6 @@ $(() => {
         winner = $(`#player-${player}`).text()
       }
     }
-    console.log('game over?')
     $('#win-check').html(`<div>WINNNER ${winner}</div>`)
   }
 
@@ -136,27 +156,6 @@ $(() => {
       }
       
     }
-  }
-
-  function readyCheck() {
-    if (!gameOver) {
-      $.ajax({
-        url: '/gops/'+gameid+'/ready_check'
-      })
-        .then(function(gameInfo) {
-          console.log('polling!')
-          // readyCheck will return:
-          // score, previously played cards
-          if (gameInfo.prize === undefined) {
-            return endGame(gameInfo)
-          }
-          updatePlayedCards(gameInfo)
-          updateScore(gameInfo)
-          updatePrize(gameInfo)
-          showPlayedCards(gameInfo)     
-        })
-    }
-    
   }
 
   setInterval(readyCheck, 5000)
