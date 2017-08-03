@@ -165,20 +165,6 @@ function getPlayerList(game_id) {
   return players
 }
 
-function showPlayedList(gameid) {
-  let playedCards = { }
-  
-  for (let player in gops_db[gameid].players) {
-    
-    playedCards.players[player] = { }
-    playedCards.players[player].cardPlayed = gops_db[gameid].players[player].readyCard
-    playedCards.players[player].score = gops_db[gameid].players[player].points
-  }
-  playedCards.ready = (showPlayedCount === 2)
-
-  return playedCards
-}
-
 function showPlayedCount(gameid) {
   let playedCounter = 0
 
@@ -189,8 +175,6 @@ function showPlayedCount(gameid) {
   }
   return playedCounter
 }
-
-
 
 function turnReadyCheck(gameid, userid) {
   if (gops_db[gameid].players[userid].readyCard > 0) {
@@ -255,7 +239,6 @@ function showGameInfo(game_id) {
     gameInfo.players[user_id].ready = turnReadyCheck(game_id, user_id)
   }
   gameInfo.prize = showPrize(game_id)
-  console.log(gameInfo);
 
   endRound(game_id)
 
@@ -275,9 +258,6 @@ function showGameInfo(game_id) {
 
 // // removePrize(1);
 // // resetHand(1);
-
-
-console.log(gops_db);
 
 const knexFunctions = {
   createGame: createGame,
